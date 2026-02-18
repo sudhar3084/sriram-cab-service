@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sriram Cab Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ========== RESET & BASE ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ========== NAVBAR ========== */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Sudarshan Chakra */
+    .chakra {
+      width: 55px;
+      height: 55px;
+      animation: spinChakra 3s linear infinite;
+    }
+
+    .chakra svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 10px gold);
+    }
+
+    @keyframes spinChakra {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .brand-name {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #FFD700, #FFA500, #FF6347, #FFD700);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s ease infinite;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00f2fe, #4facfe, #f77062, #fe5196);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease infinite;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    /* ========== CAR ANIMATION ========== */
+    .road-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      height: 120px;
+      margin: 10px 0 30px;
+    }
+
+    .road {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 8px;
+      background: #555;
+      border-radius: 4px;
+    }
+
+    .road::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg, #FFD700, #FFD700 30px, transparent 30px, transparent 60px
+      );
+      animation: roadMove 1s linear infinite;
+    }
+
+    @keyframes roadMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-60px); }
+    }
+
+    .car {
+      position: absolute;
+      bottom: 10px;
+      animation: carDrive 8s linear infinite;
+      font-size: 4rem;
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+    }
+
+    @keyframes carDrive {
+      0% { left: -150px; }
+      100% { left: 110%; }
+    }
+
+    .car-reverse {
+      position: absolute;
+      bottom: 10px;
+      animation: carDriveReverse 10s linear infinite;
+      font-size: 3.5rem;
+      filter: drop-shadow(0 0 15px rgba(0, 200, 255, 0.6));
+    }
+
+    @keyframes carDriveReverse {
+      0% { right: -150px; transform: scaleX(-1); }
+      100% { right: 110%; transform: scaleX(-1); }
+    }
+
+    /* ========== BOOKING SECTION ========== */
+    .booking-section {
+      max-width: 550px;
+      margin: 0 auto 40px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px 35px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .booking-section h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #FFD700;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: transparent;
+      color: #ccc;
+      border: none;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #000;
+    }
+
+    .tab:hover:not(.active) {
+      background: rgba(255, 215, 0, 0.1);
+      color: #FFD700;
+    }
+
+    /* Forms */
+    .form-container { display: none; }
+    .form-container.active { display: block; }
+
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #ddd;
+      font-size: 0.9rem;
+    }
+
+    .form-group i {
+      position: absolute;
+      top: 42px;
+      left: 14px;
+      color: #FFD700;
+      font-size: 1rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 14px 14px 42px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input::placeholder { color: #888; }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #FFD700;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      color: #000;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    }
+
+    /* ========== RIDE BOOKING (After Login) ========== */
+    .ride-section {
+      max-width: 550px;
+      margin: 0 auto 40px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px 35px;
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      display: none;
+      animation: fadeInUp 1s ease;
+    }
+
+    .ride-section h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+      color: #00d4ff;
+    }
+
+    .ride-section .welcome-msg {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
+
+    .location-icon { color: #00d4ff !important; }
+    .drop-icon { color: #ff5e62 !important; }
+
+    .btn-calculate {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-calculate:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 200, 255, 0.4);
+    }
+
+    /* Fare Result Box */
+    .fare-result {
+      display: none;
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 100, 50, 0.15));
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      text-align: center;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .fare-result h3 {
+      color: #FFD700;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+
+    .fare-details {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .fare-item {
+      text-align: center;
+    }
+
+    .fare-item .value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FFD700;
+    }
+
+    .fare-item .label {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 2px;
+    }
+
+    .btn-book {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #56ab2f, #a8e063);
+      color: #000;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-book:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(86, 171, 47, 0.4);
+    }
+
+    /* ========== FEATURES SECTION ========== */
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px 25px;
+      text-align: center;
+      width: 240px;
+      transition: all 0.3s ease;
+      animation: fadeInUp 1s ease;
+    }
+
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.4s; }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      border-color: #FFD700;
+      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+    }
+
+    .feature-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #FFD700;
+    }
+
+    .feature-card p {
+      font-size: 0.85rem;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    /* ========== CONTACT / FOOTER ========== */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-top: 2px solid rgba(255, 215, 0, 0.2);
+      margin-top: 20px;
+    }
+
+    .footer h3 {
+      font-size: 1.5rem;
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #ddd;
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      color: #FFD700;
+      transform: scale(1.05);
+    }
+
+    .contact-item i {
+      font-size: 1.3rem;
+      color: #FFD700;
+    }
+
+    .contact-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .footer .copyright {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 15px;
+    }
+
+    /* ========== FLOATING PARTICLES ========== */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 215, 0, 0.4);
+      border-radius: 50%;
+      animation: float 15s infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ========== SUCCESS MODAL ========== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 2px solid #FFD700;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .modal-content .success-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+
+    .modal-content h2 {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .btn-close-modal {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .btn-close-modal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+    }
+
+    /* ========== LOGOUT BTN ========== */
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      padding: 8px 20px;
+      border: 2px solid #ff5e62;
+      background: transparent;
+      color: #ff5e62;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .logout-btn:hover {
+      background: #ff5e62;
+      color: #fff;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .brand-name { font-size: 1.3rem; }
+      .hero h1 { font-size: 2rem; }
+      .features { gap: 15px; }
+      .feature-card { width: 100%; max-width: 300px; }
+      .contact-info { flex-direction: column; align-items: center; gap: 15px; }
+      .chakra { width: 40px; height: 40px; }
+      .navbar { padding: 15px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo-section">
+      <div class="chakra">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="3"/>
+          <circle cx="50" cy="50" r="8" fill="gold"/>
+          <!-- Spokes -->
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2"/>
+          <line x1="5" y1="50" x2="95" y2="50" stroke="gold" stroke-width="2"/>
+          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="gold" stroke-width="2"/>
+          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="gold" stroke-width="2"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(22.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(67.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(112.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(157.5 50 50)"/>
+          <!-- Outer ring details -->
+          <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="1" stroke-dasharray="5,5"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="gold" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <span class="brand-name">🙏 Sriram Cab Service 🙏</span>
+
+      <div class="chakra">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="3"/>
+          <circle cx="50" cy="50" r="8" fill="gold"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2"/>
+          <line x1="5" y1="50" x2="95" y2="50" stroke="gold" stroke-width="2"/>
+          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="gold" stroke-width="2"/>
+          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="gold" stroke-width="2"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(22.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(67.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(112.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(157.5 50 50)"/>
+          <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="1" stroke-dasharray="5,5"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="gold" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Logout Button -->
+  <button class="logout-btn" id="logoutBtn" onclick="logout()">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </button>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Your Ride, Your Way 🚗</h1>
+    <p>Fast, safe & affordable cab service at your fingertips. Book your ride in seconds!</p>
+  </section>
+
+  <!-- Car Animation -->
+  <div class="road-container">
+    <div class="car">🚕</div>
+    <div class="car-reverse">🚙</div>
+    <div class="road"></div>
+  </div>
+
+  <!-- Login / Signup Section -->
+  <div class="booking-section" id="authSection">
+    <h2>🔐 Get Started</h2>
+
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+      <button class="tab" id="signupTab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-container active" id="loginForm">
+      <div class="form-group">
+        <label>Email Address</label>
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="loginEmail" placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <i class="fas fa-lock"></i>
+        <input type="password" id="loginPassword" placeholder="Enter your password" />
+      </div>
+      <button class="btn-primary" onclick="login()">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-container" id="signupForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <i class="fas fa-user"></i>
+        <input type="text" id="signupName" placeholder="Enter your full name" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="signupEmail" placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="signupPhone" placeholder="Enter your phone number" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <i class="fas fa-lock"></i>
+        <input type="password" id="signupPassword" placeholder="Create a password" />
+      </div>
+      <button class="btn-primary" onclick="signup()">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </button>
+    </div>
+  </div>
+
+  <!-- Ride Booking Section (Hidden Until Login) -->
+  <div class="ride-section" id="rideSection">
+    <h2>🚖 Book Your Ride</h2>
+    <p class="welcome-msg">Welcome, <span id="userName">User</span>! Where are you heading?</p>
+
+    <div class="form-group">
+      <label>📍 Pick-up Location</label>
+      <i class="fas fa-map-marker-alt location-icon"></i>
+      <input type="text" id="pickup" placeholder="Enter pick-up location" />
+    </div>
+
+    <div class="form-group">
+      <label>📍 Drop-off Location</label>
+      <i class="fas fa-map-pin drop-icon"></i>
+      <input type="text" id="dropoff" placeholder="Enter drop-off location" />
+    </div>
+
+    <button class="btn-calculate" onclick="calculateFare()">
+      <i class="fas fa-calculator"></i> Calculate Fare
+    </button>
+
+    <!-- Fare Result -->
+    <div class="fare-result" id="fareResult">
+      <h3>🧾 Ride Estimate</h3>
+      <div class="fare-details">
+        <div class="fare-item">
+          <div class="value" id="distanceValue">0 km</div>
+          <div class="label">Distance</div>
+        </div>
+        <div class="fare-item">
+          <div class="value" id="timeValue">0 min</div>
+          <div class="label">Est. Time</div>
+        </div>
+        <div class="fare-item">
+          <div class="value" id="fareValue">₹0</div>
+          <div class="label">Total Fare</div>
+        </div>
+      </div>
+      <button class="btn-book" onclick="bookRide()">
+        <i class="fas fa-car"></i> Book Now
+      </button>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h3>Instant Booking</h3>
+      <p>Book your ride in just a few taps. No waiting, no hassle!</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🛡️</div>
+      <h3>Safe & Secure</h3>
+      <p>Verified drivers, real-time tracking & emergency support.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💰</div>
+      <h3>Best Prices</h3>
+      <p>Transparent pricing with no hidden charges. Pay what you see!</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <h3>📞 Contact Us</h3>
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:rsudharshan2004@gmail.com">rsudharshan2004@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+917358498414">+91 7358498414</a>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>India</span>
+      </div>
+    </div>
+    <p class="copyright">© 2026 Sriram Cab Service. All Rights Reserved. Made with ❤️</p>
+  </footer>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <div class="success-icon">🎉</div>
+      <h2>Ride Booked!</h2>
+      <p>Your cab is on the way. Thank you for choosing <strong>Sriram Cab Service</strong>!</p>
+      <button class="btn-close-modal" onclick="closeModal()">OK, Great!</button>
+    </div>
+  </div>
+
+  <script>
+    // ========== API BASE URL ==========
+    const API_URL = window.location.origin;
+
+    // ========== PARTICLES ==========
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+      particle.style.animationDelay = (Math.random() * 10) + 's';
+      particle.style.width = (Math.random() * 4 + 2) + 'px';
+      particle.style.height = particle.style.width;
+      particlesContainer.appendChild(particle);
+    }
+
+    // ========== TAB SWITCHING ==========
+    function switchTab(tab) {
+      document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+      document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+      document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+      document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
+    }
+
+    // ========== SIGNUP (API) ==========
+    async function signup() {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+
+      if (!name || !email || !phone || !password) {
+        alert('⚠️ Please fill in all fields!');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert('⚠️ ' + data.message);
+          return;
+        }
+
+        alert('✅ ' + data.message);
+        switchTab('login');
+
+        // Clear signup form
+        document.getElementById('signupName').value = '';
+        document.getElementById('signupEmail').value = '';
+        document.getElementById('signupPhone').value = '';
+        document.getElementById('signupPassword').value = '';
+      } catch (error) {
+        alert('❌ Network error. Make sure the server is running!');
+        console.error(error);
+      }
+    }
+
+    // ========== LOGIN (API) ==========
+    async function login() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!email || !password) {
+        alert('⚠️ Please fill in all fields!');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert('❌ ' + data.message);
+          return;
+        }
+
+        // Save token and user info
+        localStorage.setItem('sriramCabToken', data.token);
+        localStorage.setItem('sriramCabLoggedIn', JSON.stringify(data.user));
+        showRideSection(data.user.name);
+      } catch (error) {
+        alert('❌ Network error. Make sure the server is running!');
+        console.error(error);
+      }
+    }
+
+    // ========== SHOW RIDE SECTION ==========
+    function showRideSection(name) {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('rideSection').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'block';
+      document.getElementById('userName').textContent = name;
+    }
+
+    // ========== LOGOUT ==========
+    function logout() {
+      localStorage.removeItem('sriramCabLoggedIn');
+      localStorage.removeItem('sriramCabToken');
+      document.getElementById('authSection').style.display = 'block';
+      document.getElementById('rideSection').style.display = 'none';
+      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('fareResult').style.display = 'none';
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+
+    // ========== CHECK IF ALREADY LOGGED IN ==========
+    window.addEventListener('load', () => {
+      const loggedIn = JSON.parse(localStorage.getItem('sriramCabLoggedIn'));
+      const token = localStorage.getItem('sriramCabToken');
+      if (loggedIn && token) {
+        showRideSection(loggedIn.name);
+      }
+    });
+
+    // ========== FARE CALCULATION ==========
+    const locationDatabase = {
+      'chennai central': { lat: 13.0827, lng: 80.2707 },
+      'chennai airport': { lat: 12.9941, lng: 80.1709 },
+      'marina beach': { lat: 13.0500, lng: 80.2824 },
+      't nagar': { lat: 13.0418, lng: 80.2341 },
+      'egmore': { lat: 13.0732, lng: 80.2609 },
+      'tambaram': { lat: 12.9249, lng: 80.1000 },
+      'velachery': { lat: 12.9815, lng: 80.2180 },
+      'adyar': { lat: 13.0063, lng: 80.2574 },
+      'anna nagar': { lat: 13.0850, lng: 80.2101 },
+      'porur': { lat: 13.0382, lng: 80.1568 },
+      'guindy': { lat: 13.0067, lng: 80.2206 },
+      'mylapore': { lat: 13.0368, lng: 80.2676 },
+      'kodambakkam': { lat: 13.0520, lng: 80.2240 },
+      'chrompet': { lat: 12.9516, lng: 80.1462 },
+      'sholinganallur': { lat: 12.9010, lng: 80.2279 },
+      'omr': { lat: 12.9100, lng: 80.2300 },
+      'ecr': { lat: 12.9600, lng: 80.2500 },
+      'mahabalipuram': { lat: 12.6269, lng: 80.1927 },
+      'pondicherry': { lat: 11.9416, lng: 79.8083 },
+      'bangalore': { lat: 12.9716, lng: 77.5946 },
+      'coimbatore': { lat: 11.0168, lng: 76.9558 },
+      'madurai': { lat: 9.9252, lng: 78.1198 },
+      'trichy': { lat: 10.7905, lng: 78.7047 },
+      'salem': { lat: 11.6643, lng: 78.1460 },
+      'vellore': { lat: 12.9165, lng: 79.1325 },
+      'hyderabad': { lat: 17.3850, lng: 78.4867 },
+      'mumbai': { lat: 19.0760, lng: 72.8777 },
+      'delhi': { lat: 28.7041, lng: 77.1025 },
+      'kolkata': { lat: 22.5726, lng: 88.3639 },
+    };
+
+    const BASE_FARE = 50;
+    const PER_KM_RATE = 12;
+    const AVG_SPEED_KMPH = 30;
+
+    let currentRide = {}; // Store current ride details for booking
+
+    function calculateFare() {
+      const pickup = document.getElementById('pickup').value.trim().toLowerCase();
+      const dropoff = document.getElementById('dropoff').value.trim().toLowerCase();
+
+      if (!pickup || !dropoff) {
+        alert('⚠️ Please enter both pick-up and drop-off locations!');
+        return;
+      }
+
+      if (pickup === dropoff) {
+        alert('⚠️ Pick-up and Drop-off cannot be the same!');
+        return;
+      }
+
+      let distance;
+      const pickupCoords = locationDatabase[pickup];
+      const dropCoords = locationDatabase[dropoff];
+
+      if (pickupCoords && dropCoords) {
+        distance = haversineDistance(pickupCoords.lat, pickupCoords.lng, dropCoords.lat, dropCoords.lng);
+      } else {
+        distance = Math.random() * 40 + 5;
+      }
+
+      const fare = BASE_FARE + (distance * PER_KM_RATE);
+      const time = (distance / AVG_SPEED_KMPH) * 60;
+
+      // Store ride details for booking
+      currentRide = {
+        pickup: document.getElementById('pickup').value.trim(),
+        dropoff: document.getElementById('dropoff').value.trim(),
+        distance: parseFloat(distance.toFixed(1)),
+        fare: parseFloat(fare.toFixed(0)),
+        estimatedTime: Math.round(time)
+      };
+
+      document.getElementById('distanceValue').textContent = distance.toFixed(1) + ' km';
+      document.getElementById('timeValue').textContent = Math.round(time) + ' min';
+      document.getElementById('fareValue').textContent = '₹' + fare.toFixed(0);
+      document.getElementById('fareResult').style.display = 'block';
+    }
+
+    // Haversine formula
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) ** 2 +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function toRad(deg) { return deg * (Math.PI / 180); }
+
+    // ========== BOOK RIDE (API) ==========
+    async function bookRide() {
+      const token = localStorage.getItem('sriramCabToken');
+      if (!token) {
+        alert('⚠️ Please login again!');
+        logout();
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/bookings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(currentRide)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert('❌ ' + data.message);
+          return;
+        }
+
+        document.getElementById('successModal').classList.add('active');
+      } catch (error) {
+        alert('❌ Network error. Make sure the server is running!');
+        console.error(error);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('successModal').classList.remove('active');
+      document.getElementById('pickup').value = '';
+      document.getElementById('dropoff').value = '';
+      document.getElementById('fareResult').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
