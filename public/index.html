@@ -6,606 +6,196 @@
   <title>Sriram Cab Service</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://accounts.google.com/gsi/client" async></script>
   <style>
-    /* ========== RESET & BASE ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
+      background: #ffffff;
+      color: #333;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    /* ========== NAVBAR ========== */
     .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 40px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px 40px; background: #ffffff;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 2px solid #e0e0e0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* Sudarshan Chakra */
-    .chakra {
-      width: 55px;
-      height: 55px;
-      animation: spinChakra 3s linear infinite;
-    }
-
-    .chakra svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 10px gold);
-    }
-
-    @keyframes spinChakra {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
+    .logo-section { display: flex; align-items: center; gap: 15px; }
+    .chakra { width: 55px; height: 55px; animation: spinChakra 3s linear infinite; }
+    .chakra svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px #DAA520); }
+    @keyframes spinChakra { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .brand-name {
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, #FFD700, #FFA500, #FF6347, #FFD700);
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(90deg, #DAA520, #FF8C00, #FF6347, #DAA520);
       background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: shimmer 3s ease infinite;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      text-transform: uppercase; letter-spacing: 2px;
     }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    @keyframes shimmer {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+    .hero { text-align: center; padding: 60px 20px 30px; }
+    .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 10px; color: #222; }
+    .hero p { font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto 30px; }
 
-    /* ========== HERO SECTION ========== */
-    .hero {
-      text-align: center;
-      padding: 60px 20px 30px;
-      position: relative;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      background: linear-gradient(90deg, #00f2fe, #4facfe, #f77062, #fe5196);
-      background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 4s ease infinite;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: #ccc;
-      max-width: 600px;
-      margin: 0 auto 30px;
-    }
-
-    /* ========== CAR ANIMATION ========== */
-    .road-container {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      height: 120px;
-      margin: 10px 0 30px;
-    }
-
-    .road {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 8px;
-      background: #555;
-      border-radius: 4px;
-    }
-
-    .road::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: repeating-linear-gradient(
-        90deg, #FFD700, #FFD700 30px, transparent 30px, transparent 60px
-      );
-      animation: roadMove 1s linear infinite;
-    }
-
-    @keyframes roadMove {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-60px); }
-    }
-
-    .car {
-      position: absolute;
-      bottom: 10px;
-      animation: carDrive 8s linear infinite;
-      font-size: 4rem;
-      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-    }
-
-    @keyframes carDrive {
-      0% { left: -150px; }
-      100% { left: 110%; }
-    }
-
-    .car-reverse {
-      position: absolute;
-      bottom: 10px;
-      animation: carDriveReverse 10s linear infinite;
-      font-size: 3.5rem;
-      filter: drop-shadow(0 0 15px rgba(0, 200, 255, 0.6));
-    }
-
-    @keyframes carDriveReverse {
-      0% { right: -150px; transform: scaleX(-1); }
-      100% { right: 110%; transform: scaleX(-1); }
-    }
-
-    /* ========== BOOKING SECTION ========== */
     .booking-section {
-      max-width: 550px;
-      margin: 0 auto 40px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 40px 35px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-      animation: fadeInUp 1s ease;
+      max-width: 500px; margin: 0 auto 40px; background: #ffffff;
+      border-radius: 20px; padding: 40px 35px;
+      border: 1px solid #e0e0e0; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      animation: fadeInUp 0.6s ease;
     }
+    @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+    .booking-section h2 { text-align: center; font-size: 1.8rem; margin-bottom: 25px; color: #333; }
 
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(40px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .booking-section h2 {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: #FFD700;
-    }
-
-    .tabs {
-      display: flex;
-      margin-bottom: 25px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid rgba(255, 215, 0, 0.4);
-    }
-
+    .tabs { display: flex; margin-bottom: 25px; border-radius: 12px; overflow: hidden; border: 2px solid #e0e0e0; }
     .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      background: transparent;
-      color: #ccc;
-      border: none;
+      flex: 1; padding: 12px; text-align: center; cursor: pointer;
+      font-weight: 600; font-size: 1rem; transition: all 0.3s ease;
+      background: transparent; color: #888; border: none;
     }
+    .tab.active { background: linear-gradient(135deg, #DAA520, #FF8C00); color: #fff; }
+    .tab:hover:not(.active) { background: #f5f5f5; color: #333; }
 
-    .tab.active {
-      background: linear-gradient(135deg, #FFD700, #FFA500);
-      color: #000;
-    }
-
-    .tab:hover:not(.active) {
-      background: rgba(255, 215, 0, 0.1);
-      color: #FFD700;
-    }
-
-    /* Forms */
     .form-container { display: none; }
     .form-container.active { display: block; }
-
-    .form-group {
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #ddd;
-      font-size: 0.9rem;
-    }
-
-    .form-group i {
-      position: absolute;
-      top: 42px;
-      left: 14px;
-      color: #FFD700;
-      font-size: 1rem;
-    }
-
+    .form-group { margin-bottom: 18px; position: relative; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #444; font-size: 0.9rem; }
+    .form-group i { position: absolute; top: 42px; left: 14px; color: #DAA520; font-size: 1rem; }
     .form-group input {
-      width: 100%;
-      padding: 14px 14px 14px 42px;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 1rem;
-      font-family: 'Poppins', sans-serif;
-      transition: all 0.3s ease;
+      width: 100%; padding: 14px 14px 14px 42px;
+      border: 2px solid #e0e0e0; border-radius: 12px;
+      background: #fafafa; color: #333; font-size: 1rem;
+      font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
     }
-
-    .form-group input::placeholder { color: #888; }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #FFD700;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-      background: rgba(255, 255, 255, 0.12);
-    }
+    .form-group input::placeholder { color: #aaa; }
+    .form-group input:focus { outline: none; border-color: #DAA520; box-shadow: 0 0 10px rgba(218,165,32,0.15); background: #fff; }
 
     .btn-primary {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #FFD700, #FF8C00);
-      color: #000;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 5px;
+      width: 100%; padding: 15px; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #DAA520, #FF8C00); color: #fff;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
+      transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+      text-transform: uppercase; letter-spacing: 1px; margin-top: 5px;
     }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(218,165,32,0.3); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    .google-btn {
+      width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px;
+      background: #fff; color: #333; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px;
     }
+    .google-btn:hover { background: #f8f8f8; border-color: #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .google-btn img { width: 22px; height: 22px; }
 
-    /* ========== RIDE BOOKING (After Login) ========== */
+    .divider { display: flex; align-items: center; margin: 20px 0; color: #aaa; font-size: 0.85rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+    .divider span { padding: 0 15px; }
+
+    .otp-section { display: none; margin-top: 15px; }
+    .otp-section.active { display: block; }
+    .otp-info { background: #f0f9f0; border: 1px solid #c3e6c3; border-radius: 10px; padding: 12px 16px; margin-bottom: 15px; font-size: 0.85rem; color: #2d7a2d; text-align: center; }
+    .otp-info.demo-otp { background: #fff8e1; border-color: #ffe082; color: #e65100; font-weight: 600; }
+
+    .forgot-link { text-align: center; margin-top: 15px; }
+    .forgot-link a { color: #DAA520; font-size: 0.9rem; text-decoration: none; font-weight: 600; cursor: pointer; transition: color 0.3s; }
+    .forgot-link a:hover { color: #FF8C00; text-decoration: underline; }
+    .back-link { text-align: center; margin-bottom: 20px; }
+    .back-link a { color: #888; font-size: 0.9rem; text-decoration: none; cursor: pointer; transition: color 0.3s; }
+    .back-link a:hover { color: #333; }
+
     .ride-section {
-      max-width: 550px;
-      margin: 0 auto 40px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 40px 35px;
-      border: 1px solid rgba(0, 200, 255, 0.3);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-      display: none;
-      animation: fadeInUp 1s ease;
+      max-width: 500px; margin: 0 auto 40px; background: #ffffff;
+      border-radius: 20px; padding: 40px 35px;
+      border: 1px solid #e0e0e0; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      display: none; animation: fadeInUp 0.6s ease;
     }
-
-    .ride-section h2 {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-      color: #00d4ff;
-    }
-
-    .ride-section .welcome-msg {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 25px;
-      font-size: 0.95rem;
-    }
-
-    .location-icon { color: #00d4ff !important; }
-    .drop-icon { color: #ff5e62 !important; }
+    .ride-section h2 { text-align: center; font-size: 1.8rem; margin-bottom: 5px; color: #333; }
+    .ride-section .welcome-msg { text-align: center; color: #888; margin-bottom: 25px; font-size: 0.95rem; }
+    .location-icon { color: #4CAF50 !important; }
+    .drop-icon { color: #f44336 !important; }
 
     .btn-calculate {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00d4ff, #0099ff);
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      width: 100%; padding: 15px; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #4CAF50, #66BB6A); color: #fff;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
+      transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+      text-transform: uppercase; letter-spacing: 1px;
     }
+    .btn-calculate:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(76,175,80,0.3); }
 
-    .btn-calculate:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 200, 255, 0.4);
-    }
-
-    /* Fare Result Box */
     .fare-result {
-      display: none;
-      margin-top: 25px;
-      padding: 25px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 100, 50, 0.15));
-      border: 1px solid rgba(255, 215, 0, 0.4);
-      text-align: center;
+      display: none; margin-top: 25px; padding: 25px; border-radius: 15px;
+      background: #f9f9f9; border: 1px solid #e0e0e0; text-align: center;
       animation: fadeInUp 0.5s ease;
     }
-
-    .fare-result h3 {
-      color: #FFD700;
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-    }
-
-    .fare-details {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 20px;
-    }
-
-    .fare-item {
-      text-align: center;
-    }
-
-    .fare-item .value {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #FFD700;
-    }
-
-    .fare-item .label {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-top: 2px;
-    }
+    .fare-result h3 { color: #333; font-size: 1.3rem; margin-bottom: 15px; }
+    .fare-details { display: flex; justify-content: space-around; margin-bottom: 20px; }
+    .fare-item { text-align: center; }
+    .fare-item .value { font-size: 1.8rem; font-weight: 800; color: #DAA520; }
+    .fare-item .label { font-size: 0.85rem; color: #888; margin-top: 2px; }
 
     .btn-book {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #56ab2f, #a8e063);
-      color: #000;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      width: 100%; padding: 15px; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #DAA520, #FF8C00); color: #fff;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
+      transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+      text-transform: uppercase; letter-spacing: 1px;
     }
+    .btn-book:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(218,165,32,0.3); }
 
-    .btn-book:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(86, 171, 47, 0.4);
-    }
-
-    /* ========== FEATURES SECTION ========== */
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
+    .features { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
     .feature-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 30px 25px;
-      text-align: center;
-      width: 240px;
-      transition: all 0.3s ease;
-      animation: fadeInUp 1s ease;
+      background: #ffffff; border: 1px solid #e0e0e0; border-radius: 16px;
+      padding: 30px 25px; text-align: center; width: 240px;
+      transition: all 0.3s ease; animation: fadeInUp 0.6s ease;
     }
-
     .feature-card:nth-child(2) { animation-delay: 0.2s; }
     .feature-card:nth-child(3) { animation-delay: 0.4s; }
+    .feature-card:hover { transform: translateY(-10px); border-color: #DAA520; box-shadow: 0 15px 40px rgba(218,165,32,0.1); }
+    .feature-card .icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .feature-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: #333; }
+    .feature-card p { font-size: 0.85rem; color: #888; line-height: 1.5; }
 
-    .feature-card:hover {
-      transform: translateY(-10px);
-      border-color: #FFD700;
-      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
-    }
+    .footer { text-align: center; padding: 40px 20px; background: #f5f5f5; border-top: 2px solid #e0e0e0; margin-top: 20px; }
+    .footer h3 { font-size: 1.5rem; color: #333; margin-bottom: 20px; }
+    .contact-info { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px; }
+    .contact-item { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #555; transition: all 0.3s ease; }
+    .contact-item:hover { color: #DAA520; transform: scale(1.05); }
+    .contact-item i { font-size: 1.3rem; color: #DAA520; }
+    .contact-item a { color: inherit; text-decoration: none; }
+    .footer .copyright { color: #999; font-size: 0.85rem; margin-top: 15px; }
 
-    .feature-card .icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .feature-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: #FFD700;
-    }
-
-    .feature-card p {
-      font-size: 0.85rem;
-      color: #aaa;
-      line-height: 1.5;
-    }
-
-    /* ========== CONTACT / FOOTER ========== */
-    .footer {
-      text-align: center;
-      padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.5);
-      border-top: 2px solid rgba(255, 215, 0, 0.2);
-      margin-top: 20px;
-    }
-
-    .footer h3 {
-      font-size: 1.5rem;
-      color: #FFD700;
-      margin-bottom: 20px;
-    }
-
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1rem;
-      color: #ddd;
-      transition: all 0.3s ease;
-    }
-
-    .contact-item:hover {
-      color: #FFD700;
-      transform: scale(1.05);
-    }
-
-    .contact-item i {
-      font-size: 1.3rem;
-      color: #FFD700;
-    }
-
-    .contact-item a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .footer .copyright {
-      color: #666;
-      font-size: 0.85rem;
-      margin-top: 15px;
-    }
-
-    /* ========== FLOATING PARTICLES ========== */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(255, 215, 0, 0.4);
-      border-radius: 50%;
-      animation: float 15s infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
-    }
-
-    /* ========== SUCCESS MODAL ========== */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
     .modal-overlay.active { display: flex; }
+    .modal-content { background: #ffffff; border: 2px solid #DAA520; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; animation: fadeInUp 0.5s ease; }
+    .modal-content .success-icon { font-size: 4rem; margin-bottom: 15px; }
+    .modal-content h2 { color: #333; margin-bottom: 10px; }
+    .modal-content p { color: #666; margin-bottom: 20px; }
+    .btn-close-modal { padding: 12px 30px; border: none; border-radius: 10px; background: linear-gradient(135deg, #DAA520, #FF8C00); color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
+    .btn-close-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(218,165,32,0.3); }
 
-    .modal-content {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      border: 2px solid #FFD700;
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      max-width: 400px;
-      animation: fadeInUp 0.5s ease;
-    }
+    .navbar { justify-content: space-between; }
+    .user-info { display: none; align-items: center; gap: 15px; }
+    .user-info.active { display: flex; }
+    .user-details { text-align: right; }
+    .user-details .user-name { font-weight: 700; font-size: 0.95rem; color: #333; }
+    .user-details .user-email { font-size: 0.78rem; color: #888; }
+    .logout-btn { padding: 8px 20px; border: 2px solid #f44336; background: transparent; color: #f44336; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; transition: all 0.3s ease; font-size: 0.85rem; }
+    .logout-btn:hover { background: #f44336; color: #fff; }
 
-    .modal-content .success-icon {
-      font-size: 4rem;
-      margin-bottom: 15px;
-    }
+    .toast { position: fixed; top: 20px; right: 20px; padding: 14px 24px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; z-index: 2000; animation: slideIn 0.4s ease, slideOut 0.4s ease 3.5s forwards; max-width: 350px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+    .toast.success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .toast.error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+    .toast.info { background: #fff8e1; color: #e65100; border: 1px solid #ffe082; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
-    .modal-content h2 {
-      color: #FFD700;
-      margin-bottom: 10px;
-    }
-
-    .modal-content p {
-      color: #ccc;
-      margin-bottom: 20px;
-    }
-
-    .btn-close-modal {
-      padding: 12px 30px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #FFD700, #FF8C00);
-      color: #000;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      transition: all 0.3s ease;
-    }
-
-    .btn-close-modal:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
-    }
-
-    /* ========== LOGOUT BTN ========== */
-    .logout-btn {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      padding: 8px 20px;
-      border: 2px solid #ff5e62;
-      background: transparent;
-      color: #ff5e62;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: none;
-    }
-
-    .logout-btn:hover {
-      background: #ff5e62;
-      color: #fff;
-    }
-
-    /* ========== RESPONSIVE ========== */
     @media (max-width: 768px) {
       .brand-name { font-size: 1.3rem; }
       .hero h1 { font-size: 2rem; }
@@ -614,103 +204,115 @@
       .contact-info { flex-direction: column; align-items: center; gap: 15px; }
       .chakra { width: 40px; height: 40px; }
       .navbar { padding: 15px 20px; }
+      .booking-section, .ride-section { margin: 0 15px 40px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating Particles -->
-  <div class="particles" id="particles"></div>
-
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="logo-section">
       <div class="chakra">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="3"/>
-          <circle cx="50" cy="50" r="8" fill="gold"/>
-          <!-- Spokes -->
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2"/>
-          <line x1="5" y1="50" x2="95" y2="50" stroke="gold" stroke-width="2"/>
-          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="gold" stroke-width="2"/>
-          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="gold" stroke-width="2"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(22.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(67.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(112.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(157.5 50 50)"/>
-          <!-- Outer ring details -->
-          <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="1" stroke-dasharray="5,5"/>
-          <circle cx="50" cy="50" r="20" fill="none" stroke="gold" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#DAA520" stroke-width="3"/>
+          <circle cx="50" cy="50" r="8" fill="#DAA520"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2"/>
+          <line x1="5" y1="50" x2="95" y2="50" stroke="#DAA520" stroke-width="2"/>
+          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="#DAA520" stroke-width="2"/>
+          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="#DAA520" stroke-width="2"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(22.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(67.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(112.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(157.5 50 50)"/>
+          <circle cx="50" cy="50" r="35" fill="none" stroke="#DAA520" stroke-width="1" stroke-dasharray="5,5"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#DAA520" stroke-width="1.5"/>
         </svg>
       </div>
-
-      <span class="brand-name">🙏 Sriram Cab Service 🙏</span>
-
+      <span class="brand-name">Sriram Cab Service</span>
       <div class="chakra">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="3"/>
-          <circle cx="50" cy="50" r="8" fill="gold"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2"/>
-          <line x1="5" y1="50" x2="95" y2="50" stroke="gold" stroke-width="2"/>
-          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="gold" stroke-width="2"/>
-          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="gold" stroke-width="2"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(22.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(67.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(112.5 50 50)"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="gold" stroke-width="2" transform="rotate(157.5 50 50)"/>
-          <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="1" stroke-dasharray="5,5"/>
-          <circle cx="50" cy="50" r="20" fill="none" stroke="gold" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#DAA520" stroke-width="3"/>
+          <circle cx="50" cy="50" r="8" fill="#DAA520"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2"/>
+          <line x1="5" y1="50" x2="95" y2="50" stroke="#DAA520" stroke-width="2"/>
+          <line x1="14.6" y1="14.6" x2="85.4" y2="85.4" stroke="#DAA520" stroke-width="2"/>
+          <line x1="85.4" y1="14.6" x2="14.6" y2="85.4" stroke="#DAA520" stroke-width="2"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(22.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(67.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(112.5 50 50)"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="#DAA520" stroke-width="2" transform="rotate(157.5 50 50)"/>
+          <circle cx="50" cy="50" r="35" fill="none" stroke="#DAA520" stroke-width="1" stroke-dasharray="5,5"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#DAA520" stroke-width="1.5"/>
         </svg>
       </div>
     </div>
+    <div class="user-info" id="userInfo">
+      <div class="user-details">
+        <div class="user-name" id="navUserName"></div>
+        <div class="user-email" id="navUserEmail"></div>
+      </div>
+      <button class="logout-btn" id="logoutBtn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
   </nav>
 
-  <!-- Logout Button -->
-  <button class="logout-btn" id="logoutBtn" onclick="logout()">
-    <i class="fas fa-sign-out-alt"></i> Logout
-  </button>
-
-  <!-- Hero Section -->
   <section class="hero">
-    <h1>Your Ride, Your Way 🚗</h1>
+    <h1>Your Ride, Your Way</h1>
     <p>Fast, safe & affordable cab service at your fingertips. Book your ride in seconds!</p>
   </section>
 
-  <!-- Car Animation -->
-  <div class="road-container">
-    <div class="car">🚕</div>
-    <div class="car-reverse">🚙</div>
-    <div class="road"></div>
-  </div>
-
   <!-- Login / Signup Section -->
   <div class="booking-section" id="authSection">
-    <h2>🔐 Get Started</h2>
+    <h2>Get Started</h2>
 
-    <div class="tabs">
+    <div class="tabs" id="authTabs">
       <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
       <button class="tab" id="signupTab" onclick="switchTab('signup')">Sign Up</button>
     </div>
 
-    <!-- Login Form -->
+    <!-- LOGIN FORM (OTP Based) -->
     <div class="form-container active" id="loginForm">
-      <div class="form-group">
-        <label>Email Address</label>
-        <i class="fas fa-envelope"></i>
-        <input type="email" id="loginEmail" placeholder="Enter your email" />
+      <div id="loginStep1">
+        <div class="form-group">
+          <label>Email Address</label>
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="loginEmail" placeholder="Enter your email" />
+        </div>
+        <button class="btn-primary" onclick="sendLoginOTP()">
+          <i class="fas fa-paper-plane"></i> Send OTP
+        </button>
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <i class="fas fa-lock"></i>
-        <input type="password" id="loginPassword" placeholder="Enter your password" />
+
+      <div class="otp-section" id="loginStep2">
+        <div class="otp-info">OTP sent to <strong id="otpSentEmail"></strong></div>
+        <div class="otp-info demo-otp" id="demoOtpBox" style="display:none;">
+          Demo OTP: <strong id="demoOtpValue"></strong>
+        </div>
+        <div class="form-group">
+          <label>Enter OTP</label>
+          <i class="fas fa-key"></i>
+          <input type="text" id="loginOtp" placeholder="Enter 6-digit OTP" maxlength="6" />
+        </div>
+        <button class="btn-primary" onclick="verifyLoginOTP()">
+          <i class="fas fa-check-circle"></i> Verify & Login
+        </button>
+        <p style="text-align:center; margin-top:12px;">
+          <a href="#" onclick="resendLoginOTP(); return false;" style="color:#DAA520; font-size:0.85rem; text-decoration:none;">Resend OTP</a>
+        </p>
       </div>
-      <button class="btn-primary" onclick="login()">
-        <i class="fas fa-sign-in-alt"></i> Login
-      </button>
+
+      <div class="forgot-link" id="forgotLink">
+        <a href="#" onclick="showForgotPassword(); return false;">Forgot Password?</a>
+      </div>
     </div>
 
-    <!-- Signup Form -->
+    <!-- SIGNUP FORM (Google + Manual) -->
     <div class="form-container" id="signupForm">
+      <div id="googleBtnContainer" style="display:flex; justify-content:center; min-height:44px;"></div>
+
+      <div class="divider"><span>OR</span></div>
+
       <div class="form-group">
         <label>Full Name</label>
         <i class="fas fa-user"></i>
@@ -735,32 +337,75 @@
         <i class="fas fa-user-plus"></i> Sign Up
       </button>
     </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div class="form-container" id="forgotForm">
+      <div class="back-link">
+        <a href="#" onclick="showLoginForm(); return false;"><i class="fas fa-arrow-left"></i> Back to Login</a>
+      </div>
+
+      <div id="forgotStep1">
+        <p style="text-align:center; color:#666; margin-bottom:20px; font-size:0.9rem;">
+          Enter your email and we will send a reset code.
+        </p>
+        <div class="form-group">
+          <label>Email Address</label>
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="forgotEmail" placeholder="Enter your email" />
+        </div>
+        <button class="btn-primary" onclick="sendResetOTP()">
+          <i class="fas fa-paper-plane"></i> Send Reset Code
+        </button>
+      </div>
+
+      <div class="otp-section" id="forgotStep2">
+        <div class="otp-info">Reset code sent to <strong id="resetSentEmail"></strong></div>
+        <div class="otp-info demo-otp" id="demoResetOtpBox" style="display:none;">
+          Demo Reset Code: <strong id="demoResetOtpValue"></strong>
+        </div>
+        <div class="form-group">
+          <label>Reset Code</label>
+          <i class="fas fa-key"></i>
+          <input type="text" id="resetOtp" placeholder="Enter 6-digit code" maxlength="6" />
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <i class="fas fa-lock"></i>
+          <input type="password" id="newPassword" placeholder="Enter new password" />
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <i class="fas fa-lock"></i>
+          <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+        </div>
+        <button class="btn-primary" onclick="resetPassword()">
+          <i class="fas fa-check"></i> Reset Password
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Ride Booking Section (Hidden Until Login) -->
   <div class="ride-section" id="rideSection">
-    <h2>🚖 Book Your Ride</h2>
+    <h2>Book Your Ride</h2>
     <p class="welcome-msg">Welcome, <span id="userName">User</span>! Where are you heading?</p>
 
     <div class="form-group">
-      <label>📍 Pick-up Location</label>
+      <label>Pick-up Location</label>
       <i class="fas fa-map-marker-alt location-icon"></i>
       <input type="text" id="pickup" placeholder="Enter pick-up location" />
     </div>
-
     <div class="form-group">
-      <label>📍 Drop-off Location</label>
+      <label>Drop-off Location</label>
       <i class="fas fa-map-pin drop-icon"></i>
       <input type="text" id="dropoff" placeholder="Enter drop-off location" />
     </div>
-
     <button class="btn-calculate" onclick="calculateFare()">
       <i class="fas fa-calculator"></i> Calculate Fare
     </button>
 
-    <!-- Fare Result -->
     <div class="fare-result" id="fareResult">
-      <h3>🧾 Ride Estimate</h3>
+      <h3>Ride Estimate</h3>
       <div class="fare-details">
         <div class="fare-item">
           <div class="value" id="distanceValue">0 km</div>
@@ -771,7 +416,7 @@
           <div class="label">Est. Time</div>
         </div>
         <div class="fare-item">
-          <div class="value" id="fareValue">₹0</div>
+          <div class="value" id="fareValue">0</div>
           <div class="label">Total Fare</div>
         </div>
       </div>
@@ -781,28 +426,26 @@
     </div>
   </div>
 
-  <!-- Features -->
   <div class="features">
     <div class="feature-card">
-      <div class="icon">⚡</div>
+      <div class="icon">&#9889;</div>
       <h3>Instant Booking</h3>
       <p>Book your ride in just a few taps. No waiting, no hassle!</p>
     </div>
     <div class="feature-card">
-      <div class="icon">🛡️</div>
+      <div class="icon">&#128737;&#65039;</div>
       <h3>Safe & Secure</h3>
       <p>Verified drivers, real-time tracking & emergency support.</p>
     </div>
     <div class="feature-card">
-      <div class="icon">💰</div>
+      <div class="icon">&#128176;</div>
       <h3>Best Prices</h3>
       <p>Transparent pricing with no hidden charges. Pay what you see!</p>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="footer">
-    <h3>📞 Contact Us</h3>
+    <h3>Contact Us</h3>
     <div class="contact-info">
       <div class="contact-item">
         <i class="fas fa-envelope"></i>
@@ -817,45 +460,62 @@
         <span>India</span>
       </div>
     </div>
-    <p class="copyright">© 2026 Sriram Cab Service. All Rights Reserved. Made with ❤️</p>
+    <p class="copyright">2026 Sriram Cab Service. All Rights Reserved.</p>
   </footer>
 
-  <!-- Success Modal -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-content">
-      <div class="success-icon">🎉</div>
+      <div class="success-icon">&#127881;</div>
       <h2>Ride Booked!</h2>
       <p>Your cab is on the way. Thank you for choosing <strong>Sriram Cab Service</strong>!</p>
       <button class="btn-close-modal" onclick="closeModal()">OK, Great!</button>
     </div>
   </div>
 
+  <div id="g_id_onload"
+       data-client_id="447956619151-il5mq7a48k9rgb5k0hbr91qkql6r5v0i.apps.googleusercontent.com"
+       data-callback="handleGoogleCredential"
+       data-auto_prompt="false"
+       style="display:none;">
+  </div>
+
   <script>
-    // ========== API BASE URL ==========
     const API_URL = window.location.origin;
 
-    // ========== PARTICLES ==========
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 30; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      particle.style.animationDelay = (Math.random() * 10) + 's';
-      particle.style.width = (Math.random() * 4 + 2) + 'px';
-      particle.style.height = particle.style.width;
-      particlesContainer.appendChild(particle);
+    // Auto-clear session if ?logout is in the URL
+    if (window.location.search.includes('logout')) {
+      localStorage.removeItem('sriramCabToken');
+      localStorage.removeItem('sriramCabLoggedIn');
+      window.location.href = window.location.origin;
     }
 
-    // ========== TAB SWITCHING ==========
+    function showToast(message, type) {
+      type = type || 'info';
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 4000);
+    }
+
     function switchTab(tab) {
       document.getElementById('loginTab').classList.toggle('active', tab === 'login');
       document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
       document.getElementById('loginForm').classList.toggle('active', tab === 'login');
       document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
+      document.getElementById('forgotForm').classList.remove('active');
+      document.getElementById('authTabs').style.display = 'flex';
+      resetLoginSteps();
     }
 
-    // ========== SIGNUP (API) ==========
+    function resetLoginSteps() {
+      document.getElementById('loginStep1').style.display = 'block';
+      document.getElementById('loginStep2').classList.remove('active');
+      document.getElementById('forgotLink').style.display = 'block';
+      document.getElementById('loginOtp').value = '';
+    }
+
+    // ========== MANUAL SIGNUP ==========
     async function signup() {
       const name = document.getElementById('signupName').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
@@ -863,103 +523,279 @@
       const password = document.getElementById('signupPassword').value.trim();
 
       if (!name || !email || !phone || !password) {
-        alert('⚠️ Please fill in all fields!');
+        showToast('Please fill in all fields!', 'error');
         return;
       }
 
       try {
-        const res = await fetch(`${API_URL}/api/auth/signup`, {
+        const res = await fetch(API_URL + '/api/auth/signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, phone, password })
+          body: JSON.stringify({ name: name, email: email, phone: phone, password: password })
         });
-
         const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
 
-        if (!res.ok) {
-          alert('⚠️ ' + data.message);
-          return;
-        }
-
-        alert('✅ ' + data.message);
+        showToast('Account created! Please login.', 'success');
         switchTab('login');
-
-        // Clear signup form
         document.getElementById('signupName').value = '';
         document.getElementById('signupEmail').value = '';
         document.getElementById('signupPhone').value = '';
         document.getElementById('signupPassword').value = '';
       } catch (error) {
-        alert('❌ Network error. Make sure the server is running!');
+        showToast('Network error. Make sure the server is running!', 'error');
         console.error(error);
       }
     }
 
-    // ========== LOGIN (API) ==========
-    async function login() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-
-      if (!email || !password) {
-        alert('⚠️ Please fill in all fields!');
-        return;
+    // ========== GOOGLE SIGN-IN ==========
+    function initGoogleSignIn() {
+      if (window.google && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: '447956619151-il5mq7a48k9rgb5k0hbr91qkql6r5v0i.apps.googleusercontent.com',
+          callback: handleGoogleCredential
+        });
+        var container = document.getElementById('googleBtnContainer');
+        if (container) {
+          google.accounts.id.renderButton(container, {
+            theme: 'outline',
+            size: 'large',
+            width: 400,
+            text: 'signup_with',
+            shape: 'rectangular'
+          });
+        }
       }
+    }
 
+    // Try to init immediately, and also after GIS script loads
+    window.addEventListener('load', function() {
+      setTimeout(initGoogleSignIn, 500);
+    });
+
+    async function handleGoogleCredential(response) {
       try {
-        const res = await fetch(`${API_URL}/api/auth/login`, {
+        const res = await fetch(API_URL + '/api/auth/google-signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ credential: response.credential })
         });
-
         const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
 
-        if (!res.ok) {
-          alert('❌ ' + data.message);
-          return;
-        }
-
-        // Save token and user info
         localStorage.setItem('sriramCabToken', data.token);
         localStorage.setItem('sriramCabLoggedIn', JSON.stringify(data.user));
-        showRideSection(data.user.name);
+        showToast('Google sign-in successful!', 'success');
+        showRideSection(data.user.name, data.user.email);
       } catch (error) {
-        alert('❌ Network error. Make sure the server is running!');
+        showToast('Google sign-in failed. Check your connection.', 'error');
+        console.error(error);
+      }
+    }
+
+    // ========== LOGIN WITH OTP ==========
+    var loginEmailStore = '';
+
+    async function sendLoginOTP() {
+      var email = document.getElementById('loginEmail').value.trim();
+      if (!email) { showToast('Please enter your email!', 'error'); return; }
+      loginEmailStore = email;
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
+
+        document.getElementById('loginStep1').style.display = 'none';
+        document.getElementById('loginStep2').classList.add('active');
+        document.getElementById('forgotLink').style.display = 'none';
+        document.getElementById('otpSentEmail').textContent = email;
+
+        if (data.demo_otp) {
+          document.getElementById('demoOtpBox').style.display = 'block';
+          document.getElementById('demoOtpValue').textContent = data.demo_otp;
+        }
+        showToast('OTP sent to your email!', 'success');
+      } catch (error) {
+        showToast('Network error. Make sure the server is running!', 'error');
+        console.error(error);
+      }
+    }
+
+    async function resendLoginOTP() {
+      if (!loginEmailStore) return;
+      document.getElementById('loginEmail').value = loginEmailStore;
+      await sendLoginOTP();
+    }
+
+    async function verifyLoginOTP() {
+      var otp = document.getElementById('loginOtp').value.trim();
+      if (!otp || otp.length !== 6) { showToast('Please enter the 6-digit OTP!', 'error'); return; }
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: loginEmailStore, otp: otp })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
+
+        localStorage.setItem('sriramCabToken', data.token);
+        localStorage.setItem('sriramCabLoggedIn', JSON.stringify(data.user));
+        showToast('Login successful!', 'success');
+        showRideSection(data.user.name, data.user.email);
+      } catch (error) {
+        showToast('Network error. Make sure the server is running!', 'error');
+        console.error(error);
+      }
+    }
+
+    // ========== FORGOT PASSWORD ==========
+    var resetEmailStore = '';
+
+    function showForgotPassword() {
+      document.getElementById('loginForm').classList.remove('active');
+      document.getElementById('signupForm').classList.remove('active');
+      document.getElementById('forgotForm').classList.add('active');
+      document.getElementById('authTabs').style.display = 'none';
+      document.getElementById('forgotStep1').style.display = 'block';
+      document.getElementById('forgotStep2').classList.remove('active');
+    }
+
+    function showLoginForm() {
+      document.getElementById('forgotForm').classList.remove('active');
+      document.getElementById('loginForm').classList.add('active');
+      document.getElementById('authTabs').style.display = 'flex';
+      resetLoginSteps();
+    }
+
+    async function sendResetOTP() {
+      var email = document.getElementById('forgotEmail').value.trim();
+      if (!email) { showToast('Please enter your email!', 'error'); return; }
+      resetEmailStore = email;
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
+
+        document.getElementById('forgotStep1').style.display = 'none';
+        document.getElementById('forgotStep2').classList.add('active');
+        document.getElementById('resetSentEmail').textContent = email;
+
+        if (data.demo_otp) {
+          document.getElementById('demoResetOtpBox').style.display = 'block';
+          document.getElementById('demoResetOtpValue').textContent = data.demo_otp;
+        }
+        showToast('Reset code sent to your email!', 'success');
+      } catch (error) {
+        showToast('Network error. Make sure the server is running!', 'error');
+        console.error(error);
+      }
+    }
+
+    async function resetPassword() {
+      var otp = document.getElementById('resetOtp').value.trim();
+      var newPass = document.getElementById('newPassword').value.trim();
+      var confirmPass = document.getElementById('confirmPassword').value.trim();
+
+      if (!otp || otp.length !== 6) { showToast('Please enter the 6-digit reset code!', 'error'); return; }
+      if (!newPass || newPass.length < 4) { showToast('Password must be at least 4 characters!', 'error'); return; }
+      if (newPass !== confirmPass) { showToast('Passwords do not match!', 'error'); return; }
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: resetEmailStore, otp: otp, newPassword: newPass })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message, 'error'); return; }
+
+        showToast('Password reset successfully! Please login.', 'success');
+        showLoginForm();
+        document.getElementById('forgotEmail').value = '';
+        document.getElementById('resetOtp').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      } catch (error) {
+        showToast('Network error. Make sure the server is running!', 'error');
         console.error(error);
       }
     }
 
     // ========== SHOW RIDE SECTION ==========
-    function showRideSection(name) {
+    function showRideSection(name, email) {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('rideSection').style.display = 'block';
-      document.getElementById('logoutBtn').style.display = 'block';
+      document.getElementById('userInfo').classList.add('active');
       document.getElementById('userName').textContent = name;
+      document.getElementById('navUserName').textContent = name;
+      document.getElementById('navUserEmail').textContent = email || '';
     }
 
-    // ========== LOGOUT ==========
     function logout() {
       localStorage.removeItem('sriramCabLoggedIn');
       localStorage.removeItem('sriramCabToken');
       document.getElementById('authSection').style.display = 'block';
       document.getElementById('rideSection').style.display = 'none';
-      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('userInfo').classList.remove('active');
       document.getElementById('fareResult').style.display = 'none';
       document.getElementById('loginEmail').value = '';
-      document.getElementById('loginPassword').value = '';
+      document.getElementById('navUserName').textContent = '';
+      document.getElementById('navUserEmail').textContent = '';
+      resetLoginSteps();
+      switchTab('login');
     }
 
-    // ========== CHECK IF ALREADY LOGGED IN ==========
-    window.addEventListener('load', () => {
-      const loggedIn = JSON.parse(localStorage.getItem('sriramCabLoggedIn'));
-      const token = localStorage.getItem('sriramCabToken');
-      if (loggedIn && token) {
-        showRideSection(loggedIn.name);
+    window.addEventListener('load', async function() {
+      var token = localStorage.getItem('sriramCabToken');
+      if (!token) {
+        // No token — show login/signup
+        document.getElementById('authSection').style.display = 'block';
+        document.getElementById('rideSection').style.display = 'none';
+        document.getElementById('userInfo').classList.remove('active');
+        return;
+      }
+
+      // Verify token with backend
+      try {
+        var res = await fetch(API_URL + '/api/auth/me', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          var data = await res.json();
+          localStorage.setItem('sriramCabLoggedIn', JSON.stringify(data.user));
+          showRideSection(data.user.name, data.user.email);
+        } else {
+          // Token invalid/expired — clear and show login
+          localStorage.removeItem('sriramCabToken');
+          localStorage.removeItem('sriramCabLoggedIn');
+          document.getElementById('authSection').style.display = 'block';
+          document.getElementById('rideSection').style.display = 'none';
+          document.getElementById('userInfo').classList.remove('active');
+        }
+      } catch (e) {
+        // Network error — show login
+        localStorage.removeItem('sriramCabToken');
+        localStorage.removeItem('sriramCabLoggedIn');
+        document.getElementById('authSection').style.display = 'block';
+        document.getElementById('rideSection').style.display = 'none';
+        document.getElementById('userInfo').classList.remove('active');
       }
     });
 
     // ========== FARE CALCULATION ==========
-    const locationDatabase = {
+    var locationDatabase = {
       'chennai central': { lat: 13.0827, lng: 80.2707 },
       'chennai airport': { lat: 12.9941, lng: 80.1709 },
       'marina beach': { lat: 13.0500, lng: 80.2824 },
@@ -988,32 +824,24 @@
       'hyderabad': { lat: 17.3850, lng: 78.4867 },
       'mumbai': { lat: 19.0760, lng: 72.8777 },
       'delhi': { lat: 28.7041, lng: 77.1025 },
-      'kolkata': { lat: 22.5726, lng: 88.3639 },
+      'kolkata': { lat: 22.5726, lng: 88.3639 }
     };
 
-    const BASE_FARE = 50;
-    const PER_KM_RATE = 12;
-    const AVG_SPEED_KMPH = 30;
-
-    let currentRide = {}; // Store current ride details for booking
+    var BASE_FARE = 50;
+    var PER_KM_RATE = 12;
+    var AVG_SPEED_KMPH = 30;
+    var currentRide = {};
 
     function calculateFare() {
-      const pickup = document.getElementById('pickup').value.trim().toLowerCase();
-      const dropoff = document.getElementById('dropoff').value.trim().toLowerCase();
+      var pickup = document.getElementById('pickup').value.trim().toLowerCase();
+      var dropoff = document.getElementById('dropoff').value.trim().toLowerCase();
 
-      if (!pickup || !dropoff) {
-        alert('⚠️ Please enter both pick-up and drop-off locations!');
-        return;
-      }
+      if (!pickup || !dropoff) { showToast('Please enter both locations!', 'error'); return; }
+      if (pickup === dropoff) { showToast('Pick-up and Drop-off cannot be the same!', 'error'); return; }
 
-      if (pickup === dropoff) {
-        alert('⚠️ Pick-up and Drop-off cannot be the same!');
-        return;
-      }
-
-      let distance;
-      const pickupCoords = locationDatabase[pickup];
-      const dropCoords = locationDatabase[dropoff];
+      var distance;
+      var pickupCoords = locationDatabase[pickup];
+      var dropCoords = locationDatabase[dropoff];
 
       if (pickupCoords && dropCoords) {
         distance = haversineDistance(pickupCoords.lat, pickupCoords.lng, dropCoords.lat, dropCoords.lng);
@@ -1021,10 +849,9 @@
         distance = Math.random() * 40 + 5;
       }
 
-      const fare = BASE_FARE + (distance * PER_KM_RATE);
-      const time = (distance / AVG_SPEED_KMPH) * 60;
+      var fare = BASE_FARE + (distance * PER_KM_RATE);
+      var time = (distance / AVG_SPEED_KMPH) * 60;
 
-      // Store ride details for booking
       currentRide = {
         pickup: document.getElementById('pickup').value.trim(),
         dropoff: document.getElementById('dropoff').value.trim(),
@@ -1035,53 +862,41 @@
 
       document.getElementById('distanceValue').textContent = distance.toFixed(1) + ' km';
       document.getElementById('timeValue').textContent = Math.round(time) + ' min';
-      document.getElementById('fareValue').textContent = '₹' + fare.toFixed(0);
+      document.getElementById('fareValue').textContent = fare.toFixed(0);
       document.getElementById('fareResult').style.display = 'block';
     }
 
-    // Haversine formula
     function haversineDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat / 2) ** 2 +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon / 2) ** 2;
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var R = 6371;
+      var dLat = toRad(lat2 - lat1);
+      var dLon = toRad(lon2 - lon1);
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return R * c;
     }
 
     function toRad(deg) { return deg * (Math.PI / 180); }
 
-    // ========== BOOK RIDE (API) ==========
     async function bookRide() {
-      const token = localStorage.getItem('sriramCabToken');
-      if (!token) {
-        alert('⚠️ Please login again!');
-        logout();
-        return;
-      }
+      var token = localStorage.getItem('sriramCabToken');
+      if (!token) { showToast('Please login again!', 'error'); logout(); return; }
 
       try {
-        const res = await fetch(`${API_URL}/api/bookings`, {
+        const res = await fetch(API_URL + '/api/bookings', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify(currentRide)
         });
-
         const data = await res.json();
-
-        if (!res.ok) {
-          alert('❌ ' + data.message);
-          return;
-        }
-
+        if (!res.ok) { showToast(data.message, 'error'); return; }
         document.getElementById('successModal').classList.add('active');
       } catch (error) {
-        alert('❌ Network error. Make sure the server is running!');
+        showToast('Network error. Make sure the server is running!', 'error');
         console.error(error);
       }
     }

@@ -30,7 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 
 // Serve index.html for any non-API route
-app.get('*', (req, res) => {
+app.get('/{*splat}', (req, res) => {
   const publicIndex = path.join(__dirname, 'public', 'index.html');
   const parentIndex = path.join(__dirname, '..', 'index.html');
   const fs = require('fs');
