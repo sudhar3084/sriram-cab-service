@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const dns = require('dns');
 require('dotenv').config();
+console.log('DEBUG MONGO_URI:', process.env.MONGO_URI);
 
 // Fix for ISP DNS not resolving MongoDB SRV records
 dns.setServers(['8.8.8.8', '8.8.4.4']);
@@ -11,14 +12,24 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 
+
 // Connect to MongoDB
 connectDB();
+
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Log every request
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    console.log(`📥 ${req.method} ${req.path} | Auth: ${req.headers.authorization ? 'YES' : 'NO'}`);
+  }
+  next();
+});
 
 // Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));

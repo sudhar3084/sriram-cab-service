@@ -28,6 +28,15 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  carType: {
+    type: String,
+    default: ''
+  },
+  contactPhone: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   status: {
     type: String,
     enum: ['booked', 'in-progress', 'completed', 'cancelled'],

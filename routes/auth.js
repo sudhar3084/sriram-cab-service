@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+const sendWhatsApp = require('../utils/whatsapp');
 const router = express.Router();
 
 // Google OAuth client (replace with your own Client ID in .env)
@@ -120,22 +121,17 @@ router.post('/send-otp', async (req, res) => {
     user.otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
     await user.save();
 
-    // ======================================================
-    // TODO: In production, send OTP via email using nodemailer
-    // Example:
-    // const transporter = nodemailer.createTransport({ ... });
-    // await transporter.sendMail({
-    //   to: email,
-    //   subject: 'Sriram Cab Service - Login OTP',
-    //   html: `<h2>Your OTP is: ${otp}</h2><p>Valid for 5 minutes.</p>`
-    // });
-    // ======================================================
-    console.log(`📧 OTP for ${email}: ${otp}`);
+    // Send OTP via WhatsApp if user has a phone number
+    if (user.phone && user.phone.trim() !== '') {
+      const otpMessage = `🔐 *Sriram Cab Service*\n\nYour login OTP is: *${otp}*\n\nValid for 5 minutes. Do not share this with anyone.`;
+      await sendWhatsApp(user.phone, otpMessage);
+      console.log(`📲 OTP sent via WhatsApp to ${user.phone}`);
+    } else {
+      console.log(`⚠️  No phone for ${email}. OTP: ${otp}`);
+    }
 
     res.json({
-      message: 'OTP sent successfully!',
-      // Remove this in production - only for demo/testing
-      demo_otp: otp
+      message: user.phone ? `OTP sent to WhatsApp ${user.phone.slice(-4).padStart(user.phone.length, '*')}` : 'OTP sent!'
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
@@ -207,13 +203,17 @@ router.post('/forgot-password', async (req, res) => {
     user.resetOtpExpiry = new Date(Date.now() + 5 * 60 * 1000);
     await user.save();
 
-    // TODO: In production, send via email
-    console.log(`🔑 Password reset OTP for ${email}: ${otp}`);
+    // Send reset OTP via WhatsApp if user has phone
+    if (user.phone && user.phone.trim() !== '') {
+      const resetMsg = `🔑 *Sriram Cab Service*\n\nYour password reset OTP is: *${otp}*\n\nValid for 5 minutes. Do not share this.`;
+      await sendWhatsApp(user.phone, resetMsg);
+      console.log(`📲 Reset OTP sent via WhatsApp to ${user.phone}`);
+    } else {
+      console.log(`🔑 Password reset OTP for ${email}: ${otp}`);
+    }
 
     res.json({
-      message: 'Password reset OTP sent!',
-      // Remove this in production - only for demo/testing
-      demo_otp: otp
+      message: user.phone ? `Reset OTP sent to WhatsApp ${user.phone.slice(-4).padStart(user.phone.length, '*')}` : 'Reset OTP sent!'
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
