@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Innova">
+  <rect width="320" height="180" fill="none" />
+  <g transform="translate(20,36)">
+    <path d="M24 90h16l14-32c4-9 12-15 23-15h126c17 0 32 6 44 18l16 16h23c9 0 16 7 16 16v15H24z" fill="#f59e0b" stroke="#111827" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M84 50h36v26H70l6-17c2-6 5-9 8-9z" fill="#bfdbfe" stroke="#111827" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M128 50h38v26h-38z" fill="#bfdbfe" stroke="#111827" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M172 50h36c12 0 21 5 30 13l10 11h-76z" fill="#bfdbfe" stroke="#111827" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="86" cy="108" r="20" fill="#111827"/>
+    <circle cx="86" cy="108" r="9" fill="#d1d5db"/>
+    <circle cx="230" cy="108" r="20" fill="#111827"/>
+    <circle cx="230" cy="108" r="9" fill="#d1d5db"/>
+  </g>
+</svg>

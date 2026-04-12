@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sriram Cab Service</title>
+  <title>GRAND DRIVE</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -33,14 +33,62 @@
     }
   </script>
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    img, svg {
+      max-width: 100%;
+      height: auto;
+    }
     @keyframes spin-chakra { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .chakra-spin { animation: spin-chakra 3s linear infinite; }
     .chakra-spin-reverse { animation: spin-chakra 3s linear infinite reverse; }
     @keyframes floaty { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
     @keyframes fadeUp { 0% { opacity: 0; transform: translateY(16px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes roadShift { 0% { background-position: 0 0, 0 0, 0 0, 0 0; } 100% { background-position: 180px 0, -220px 0, 0 0, 0 0; } }
+    @keyframes glowPulse { 0% { box-shadow: 0 0 0 rgba(15,118,110,0.0); } 50% { box-shadow: 0 0 45px rgba(15,118,110,0.22); } 100% { box-shadow: 0 0 0 rgba(15,118,110,0.0); } }
+    @keyframes carDrift { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+    @keyframes pageReveal { 0% { opacity: 0; transform: translateY(20px) scale(0.985); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes softBreath { 0% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 0.85; } }
+    @keyframes auroraShift {
+      0% { background-position: 0% 50%, 100% 0%; }
+      50% { background-position: 100% 50%, 0% 100%; }
+      100% { background-position: 0% 50%, 100% 0%; }
+    }
+    @keyframes shineMove {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(120%); }
+    }
     body {
       font-family: 'Sora', sans-serif;
-      background: linear-gradient(180deg, #F9F6F0 0%, #EEF2F7 60%, #F9F6F0 100%);
+      background: radial-gradient(1200px 700px at 8% 10%, #dff7ff 0%, transparent 55%),
+                  radial-gradient(900px 500px at 90% 0%, #f8ecd0 0%, transparent 60%),
+                  linear-gradient(180deg, #f4f7fb 0%, #edf3ff 52%, #f8fafc 100%);
+    }
+    .glow-road-bg {
+      position: relative;
+      background:
+        repeating-linear-gradient(90deg, rgba(59,130,246,0.08) 0 6px, transparent 6px 34px),
+        repeating-linear-gradient(90deg, rgba(16,185,129,0.08) 0 4px, transparent 4px 28px),
+        radial-gradient(700px 350px at 15% 4%, rgba(14,165,233,0.18), transparent 70%),
+        radial-gradient(800px 450px at 90% 8%, rgba(245,158,11,0.18), transparent 70%);
+      animation: roadShift 20s linear infinite;
+    }
+    .glow-road-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0.82) 100%);
+    }
+    .glow-road-bg > * {
+      position: relative;
+      z-index: 1;
     }
     .page-shell {
       background: radial-gradient(700px 500px at 10% 5%, rgba(200,162,74,0.12), transparent 60%),
@@ -58,9 +106,10 @@
       box-shadow: 0 24px 60px rgba(15,23,42,0.12);
     }
     .surface-header {
-      background: #FFFFFF;
-      border-bottom: 1px solid rgba(231,226,217,0.9);
-      box-shadow: 0 14px 40px rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.9);
+      border-bottom: 1px solid rgba(148,163,184,0.22);
+      box-shadow: 0 14px 45px rgba(15,23,42,0.12);
+      backdrop-filter: blur(10px);
     }
     .surface-footer {
       background: #FFFFFF;
@@ -82,6 +131,84 @@
     .float-slow { animation: floaty 7s ease-in-out infinite; }
     .fade-up { animation: fadeUp 0.8s ease-out both; }
     .fade-up-delay { animation: fadeUp 0.8s ease-out both; animation-delay: 0.15s; }
+    .neon-panel {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(191,219,254,0.9);
+      box-shadow: 0 20px 60px rgba(30,41,59,0.12), inset 0 0 35px rgba(14,165,233,0.08);
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+    .neon-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(186,230,253,0.95);
+      box-shadow: 0 14px 36px rgba(15,23,42,0.12), inset 0 0 24px rgba(147,197,253,0.12);
+    }
+    .car-glow {
+      filter: drop-shadow(0 0 15px rgba(255,255,255,0.45)) drop-shadow(0 0 12px rgba(14,165,233,0.25));
+      animation: carDrift 3.8s ease-in-out infinite;
+    }
+    .glow-btn {
+      box-shadow: 0 0 0 rgba(14,116,144,0.0), 0 10px 22px rgba(15,23,42,0.16);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .glow-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(14,116,144,0.45), 0 14px 28px rgba(15,23,42,0.2);
+    }
+    .page-reveal {
+      animation: pageReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .splash-screen {
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(20,184,166,0.26), transparent 60%),
+        radial-gradient(700px 450px at 90% 0%, rgba(250,204,21,0.28), transparent 62%),
+        linear-gradient(130deg, #0f172a 0%, #1e3a8a 45%, #0f766e 100%);
+      background-size: 140% 140%, 120% 120%, 100% 100%;
+      animation: auroraShift 8s ease-in-out infinite;
+    }
+    .splash-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 24px 70px rgba(15,23,42,0.35);
+    }
+    .splash-dot {
+      animation: softBreath 2s ease-in-out infinite;
+    }
+    .feature-chip {
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-chip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(100deg, rgba(255,255,255,0), rgba(255,255,255,0.7), rgba(255,255,255,0));
+      animation: shineMove 2.8s linear infinite;
+      pointer-events: none;
+    }
+    .tilt-card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      transform-style: preserve-3d;
+    }
+    .tilt-card:hover {
+      transform: translateY(-8px) rotateX(3deg) rotateY(-3deg);
+      box-shadow: 0 30px 50px rgba(15,23,42,0.2);
+    }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(24px) scale(0.985);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--reveal-delay, 0ms);
+      will-change: opacity, transform;
+    }
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   </style>
 </head>
   <body class="min-h-screen text-brand-dark antialiased">
@@ -110,10 +237,48 @@
 
       const login = (tkn, usr) => { setToken(tkn); setUser(usr); localStorage.setItem('token', tkn); };
       const logout = () => { setToken(null); setUser(null); localStorage.removeItem('token'); };
+      const updateUser = (usr) => setUser(usr);
 
-      return <AuthContext.Provider value={{ user, token, login, logout }}>{children}</AuthContext.Provider>;
+      return <AuthContext.Provider value={{ user, token, login, logout, updateUser }}>{children}</AuthContext.Provider>;
     }
     const useAuth = () => useContext(AuthContext);
+
+    function useScrollReveal(deps = []) {
+      const scopeRef = useRef(null);
+
+      useEffect(() => {
+        const scope = scopeRef.current;
+        if (!scope) return;
+
+        const targets = Array.from(scope.querySelectorAll('.scroll-reveal'));
+        if (!targets.length) return;
+
+        if (!('IntersectionObserver' in window)) {
+          targets.forEach((target) => target.classList.add('is-visible'));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+        targets.forEach((target, index) => {
+          if (!target.style.getPropertyValue('--reveal-delay')) {
+            target.style.setProperty('--reveal-delay', `${Math.min(index * 70, 420)}ms`);
+          }
+          observer.observe(target);
+        });
+
+        return () => observer.disconnect();
+      }, deps);
+
+      return scopeRef;
+    }
 
     /* ─── Sudarshana Chakram SVG ─── */
     function Chakram({ size = 48, reverse = false }) {
@@ -164,7 +329,7 @@
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Chakram size={32} />
-                <span className="text-brand-dark font-extrabold text-lg tracking-wide">Sriram Cab Service</span>
+                <span className="text-brand-dark font-extrabold text-lg tracking-wide">GRAND DRIVE</span>
               </div>
               <p className="text-gray-600 text-sm leading-relaxed">Your trusted cab service in Tamil Nadu. Safe, reliable, and affordable rides 24/7.</p>
               <div className="flex gap-3 mt-4">
@@ -201,7 +366,7 @@
           {/* Bottom bar */}
           <div className="border-t border-gray-200/70 py-4 px-4">
             <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-              <p className="text-gray-500 text-xs">© 2026 Sriram Cab Service. All rights reserved.</p>
+              <p className="text-gray-500 text-xs">© 2026 GRAND DRIVE. All rights reserved.</p>
               <div className="flex items-center gap-4 text-xs text-gray-500">
                 <span>🛡️ Safe & Verified Drivers</span>
                 <span>💳 Easy Online Booking</span>
@@ -215,7 +380,95 @@
 
     /* ─── Header Component ─── */
     function Header() {
-      const { user, logout } = useAuth();
+      const { user, token, logout, updateUser } = useAuth();
+      const [showProfile, setShowProfile] = useState(false);
+      const [name, setName] = useState('');
+      const [phone, setPhone] = useState('');
+      const [place, setPlace] = useState('');
+      const [profilePicture, setProfilePicture] = useState('');
+      const [saving, setSaving] = useState(false);
+      const [profileMsg, setProfileMsg] = useState('');
+      const [profileErr, setProfileErr] = useState('');
+      const profileImageInputRef = useRef(null);
+
+      useEffect(() => {
+        if (!showProfile || !user) return;
+        setName(user.name || '');
+        setPhone(user.phone || '');
+        setPlace(user.place || '');
+        setProfilePicture(user.profilePicture || '');
+        setProfileMsg('');
+        setProfileErr('');
+      }, [showProfile, user]);
+
+      const handleSaveProfile = async () => {
+        setProfileErr('');
+        setProfileMsg('');
+        if (!name.trim()) {
+          setProfileErr('Name is required.');
+          return;
+        }
+        if (!phone.trim()) {
+          setProfileErr('Phone number is required.');
+          return;
+        }
+        if (!token) {
+          setProfileErr('Session expired. Please login again.');
+          return;
+        }
+
+        setSaving(true);
+        try {
+          const res = await fetch(API + '/auth/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: JSON.stringify({
+              name: name.trim(),
+              phone: phone.trim(),
+              place: place.trim(),
+              profilePicture: profilePicture.trim()
+            })
+          });
+          let data = null;
+          try {
+            data = await res.json();
+          } catch (parseErr) {
+            data = { message: 'Server returned non-JSON response. Please restart backend and try again.' };
+          }
+          if (!res.ok) throw new Error(data.message || 'Failed to update profile.');
+          updateUser(data.user);
+          setProfileMsg('Profile updated successfully.');
+        } catch (err) {
+          setProfileErr(err.message || 'Failed to update profile.');
+        }
+        setSaving(false);
+      };
+
+      const handleSelectProfilePhoto = () => {
+        if (profileImageInputRef.current) profileImageInputRef.current.click();
+      };
+
+      const handleProfilePhotoChange = (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          setProfileErr('Please select an image file.');
+          return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          setProfileErr('Image size must be 2MB or less.');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setProfilePicture(String(reader.result || ''));
+          setProfileErr('');
+          setProfileMsg('Photo selected from gallery. Save profile to update.');
+        };
+        reader.readAsDataURL(file);
+      };
+
       return (
         <header className="sticky top-0 z-50">
           <div className="header-ribbon"></div>
@@ -225,25 +478,109 @@
               <div className="flex items-center gap-3">
                 <Chakram size={40} />
                 <div>
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-brand-dark tracking-wide leading-tight font-display">Sriram Cab Service</h1>
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-brand-dark tracking-wide leading-tight font-display">GRAND DRIVE</h1>
                   <p className="text-gray-500 text-xs hidden sm:block">Premium rides across Tamil Nadu</p>
                 </div>
                 <Chakram size={40} reverse />
               </div>
               {user && (
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="hidden sm:flex flex-col items-end">
-                    <span className="text-brand-dark text-sm font-semibold">{user.name}</span>
-                    <span className="text-gray-500 text-xs">{user.email}</span>
-                  </div>
-                  <div className="w-9 h-9 rounded-full bg-brand-yellow/30 border border-brand-yellow/50 flex items-center justify-center font-extrabold text-brand-dark text-lg">
-                    {user.name ? user.name.charAt(0).toUpperCase() : '?'}
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowProfile(true)}
+                    className="flex items-center gap-2 sm:gap-3 rounded-xl px-2 py-1.5 hover:bg-brand-mist transition"
+                    title="Open profile"
+                  >
+                    <div className="hidden sm:flex flex-col items-end">
+                      <span className="text-brand-dark text-sm font-semibold">{user.name}</span>
+                      <span className="text-gray-500 text-xs">{user.email}</span>
+                    </div>
+                    <div className="w-9 h-9 rounded-full bg-brand-yellow/30 border border-brand-yellow/50 overflow-hidden flex items-center justify-center font-extrabold text-brand-dark text-lg">
+                      {user.profilePicture ? (
+                        <img src={user.profilePicture} alt={user.name || 'Profile'} className="w-full h-full object-cover" />
+                      ) : (user.name ? user.name.charAt(0).toUpperCase() : '?')}
+                    </div>
+                  </button>
                   <button onClick={logout} className="bg-brand-dark hover:bg-brand-blue text-white text-xs sm:text-sm px-3 py-1.5 rounded-full transition">Logout</button>
                 </div>
               )}
             </div>
           </div>
+
+          {showProfile && user && (
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-extrabold text-brand-dark font-display">Profile Details</h3>
+                  <button type="button" onClick={() => setShowProfile(false)} className="text-gray-500 hover:text-brand-dark text-xl">×</button>
+                </div>
+
+                <input
+                  ref={profileImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleProfilePhotoChange}
+                />
+
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="relative w-16 h-16 rounded-full border border-brand-yellow/50 bg-brand-yellow/20 overflow-hidden flex items-center justify-center text-2xl font-extrabold text-brand-dark">
+                    {profilePicture ? (
+                      <img src={profilePicture} alt={name || 'Profile'} className="w-full h-full object-cover" />
+                    ) : (name ? name.charAt(0).toUpperCase() : '?')}
+                    <button
+                      type="button"
+                      onClick={handleSelectProfilePhoto}
+                      className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-brand-dark text-white text-xs flex items-center justify-center border border-white"
+                      title="Change photo"
+                    >
+                      📷
+                    </button>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">User ID</p>
+                    <p className="text-sm font-semibold text-brand-dark break-all">{user.id}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-semibold text-brand-dark mb-1">Name</label>
+                    <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-brand-dark mb-1">Email</label>
+                    <input type="text" value={user.email || ''} disabled className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-500" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-brand-dark mb-1">Phone Number (Required)</label>
+                    <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow" placeholder="+91 98765 43210" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-brand-dark mb-1">Place</label>
+                    <input type="text" value={place} onChange={e => setPlace(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow" placeholder="e.g. Chennai" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-brand-dark mb-1">Profile Photo</label>
+                    <div className="flex items-center gap-2">
+                      <button type="button" onClick={handleSelectProfilePhoto} className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-brand-mist">Choose From Gallery</button>
+                      <button type="button" onClick={() => setProfilePicture('')} className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-brand-mist">Remove Photo</button>
+                    </div>
+                  </div>
+                </div>
+
+                {profileErr && <p className="text-sm text-red-600 font-semibold mt-3">{profileErr}</p>}
+                {profileMsg && <p className="text-sm text-emerald-600 font-semibold mt-3">{profileMsg}</p>}
+
+                <div className="mt-5 flex justify-end gap-2">
+                  <button type="button" onClick={() => setShowProfile(false)} className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700">Close</button>
+                  <button type="button" onClick={handleSaveProfile} disabled={saving} className="px-5 py-2 rounded-xl bg-brand-dark hover:bg-brand-blue text-white font-bold disabled:opacity-60">
+                    {saving ? 'Saving...' : 'Save Profile'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </header>
       );
     }
@@ -251,16 +588,18 @@
     /* ─── Login Page ─── */
     function LoginPage({ goTo }) {
       const { login } = useAuth();
-      const [tab, setTab] = useState('password'); // 'password' | 'otp'
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
-      const [otpEmail, setOtpEmail] = useState('');
-      const [otpCode, setOtpCode] = useState('');
-      const [otpSent, setOtpSent] = useState(false);
-      const [otpMsg, setOtpMsg] = useState('');
       const [error, setError] = useState('');
       const [debugInfo, setDebugInfo] = useState('');
       const [loading, setLoading] = useState(false);
+      const [loginVibe, setLoginVibe] = useState('City Sprint');
+
+      const vibeOptions = [
+        { name: 'City Sprint', note: 'Fast pickups for Chennai city rides' },
+        { name: 'Family Comfort', note: 'Spacious and smooth travel' },
+        { name: 'Airport Priority', note: 'On-time airport drop support' }
+      ];
 
       const handleLogin = async (e) => {
         if (e && typeof e.preventDefault === 'function') e.preventDefault();
@@ -340,52 +679,8 @@
         });
       };
 
-      const handleSendOtp = async (e) => {
-        e.preventDefault();
-        setError(''); setDebugInfo(''); setLoading(true); setOtpMsg('');
-        try {
-          const res = await fetch(API + '/auth/send-otp', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: otpEmail })
-          });
-          let data = null;
-          try {
-            data = await res.json();
-          } catch (parseErr) {
-            data = { message: 'Invalid JSON response from server.' };
-          }
-          setDebugInfo(`send-otp ${res.status} ${res.ok ? 'OK' : 'ERR'}: ${data.message || ''}`.trim());
-          if (!res.ok) throw new Error(data.message);
-          setOtpSent(true);
-          setOtpMsg(data.message);
-        } catch (err) { setError(err.message); }
-        setLoading(false);
-      };
-
-      const handleVerifyOtp = async (e) => {
-        e.preventDefault();
-        setError(''); setDebugInfo(''); setLoading(true);
-        try {
-          const res = await fetch(API + '/auth/verify-otp', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: otpEmail, otp: otpCode })
-          });
-          let data = null;
-          try {
-            data = await res.json();
-          } catch (parseErr) {
-            data = { message: 'Invalid JSON response from server.' };
-          }
-          setDebugInfo(`verify-otp ${res.status} ${res.ok ? 'OK' : 'ERR'}: ${data.message || ''}`.trim());
-          if (!res.ok) throw new Error(data.message);
-          login(data.token, data.user);
-          goTo('cars');
-        } catch (err) { setError(err.message); }
-        setLoading(false);
-      };
-
       return (
-        <div className="min-h-screen relative overflow-hidden page-shell flex flex-col">
+        <div className="min-h-screen relative overflow-hidden page-shell flex flex-col page-reveal">
           <div className="absolute inset-0 soft-grid opacity-60"></div>
           <div className="absolute -top-24 -left-24 w-80 h-80 orb float-slow rounded-full"></div>
           <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] orb-teal float-slow rounded-full"></div>
@@ -393,18 +688,51 @@
           <div className="flex items-center justify-center gap-4 pt-10 pb-4 relative z-10 fade-up">
             <Chakram size={56} />
             <h1 className="text-3xl sm:text-5xl font-extrabold text-brand-yellow tracking-wide drop-shadow-lg font-display">
-              Sriram Cab Service
+              GRAND DRIVE
             </h1>
             <Chakram size={56} reverse />
           </div>
           <p className="text-center text-gray-600 mb-6 text-sm relative z-10 fade-up-delay">Chauffeur-grade service for every journey across Tamil Nadu</p>
 
-          <div className="flex-1 flex items-start justify-center px-4 pb-10 relative z-10">
-            <div className="w-full max-w-md surface-card rounded-3xl p-8 fade-up">
+          <div className="relative z-10 flex flex-wrap items-center justify-center gap-3 px-4 mb-6 fade-up-delay">
+            <span className="feature-chip bg-white/80 border border-sky-100 text-sky-800 text-xs font-bold px-4 py-2 rounded-full shadow">24/7 Support</span>
+            <span className="feature-chip bg-white/80 border border-emerald-100 text-emerald-800 text-xs font-bold px-4 py-2 rounded-full shadow">Verified Drivers</span>
+            <span className="feature-chip bg-white/80 border border-amber-100 text-amber-800 text-xs font-bold px-4 py-2 rounded-full shadow">Live Fare Estimate</span>
+          </div>
+
+          <div className="flex-1 px-4 pb-10 relative z-10">
+            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 xl:grid-cols-[1fr_minmax(420px,520px)_1fr] gap-6 items-start">
+              <aside className="hidden xl:block surface-card rounded-3xl p-6 fade-up">
+                <p className="text-xs uppercase tracking-[0.25em] text-brand-blue font-semibold">Interactive Mode</p>
+                <h3 className="text-2xl font-extrabold text-brand-dark mt-2 font-display">Choose your ride style</h3>
+                <p className="text-sm text-gray-600 mt-2">Tap a style to personalize the login mood.</p>
+
+                <div className="mt-5 space-y-3">
+                  {vibeOptions.map((vibe) => (
+                    <button
+                      key={vibe.name}
+                      type="button"
+                      onClick={() => setLoginVibe(vibe.name)}
+                      className={`w-full text-left rounded-2xl border px-4 py-3 transition ${loginVibe === vibe.name ? 'border-brand-yellow bg-brand-yellow/15 shadow' : 'border-gray-200 bg-white hover:bg-brand-mist'}`}
+                    >
+                      <p className="text-sm font-bold text-brand-dark">{vibe.name}</p>
+                      <p className="text-xs text-gray-600 mt-1">{vibe.note}</p>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-6 rounded-2xl bg-brand-blue/10 border border-brand-blue/20 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Selected</p>
+                  <p className="text-lg font-extrabold text-brand-dark mt-1">{loginVibe}</p>
+                </div>
+              </aside>
+
+              <div className="w-full surface-card rounded-3xl p-8 fade-up">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-brand-dark font-display">Welcome Back</h2>
                 <span className="text-xs uppercase tracking-[0.35em] text-brand-blue">Premium Access</span>
               </div>
+              <p className="text-xs text-gray-500 mb-5">Current mode: <span className="font-bold text-brand-dark">{loginVibe}</span></p>
 
               {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">{error}</div>}
               {debugInfo && (
@@ -425,79 +753,65 @@
                 <div className="flex-1 h-px bg-gray-200"></div>
               </div>
 
-              {/* Login Method Tabs */}
-              <div className="flex rounded-xl overflow-hidden mb-5 border border-gray-200">
-                <button onClick={() => { setTab('password'); setError(''); }} className={`flex-1 py-2 text-sm font-semibold transition ${tab === 'password' ? 'bg-brand-yellow text-brand-dark' : 'bg-white text-gray-600 hover:bg-brand-mist'}`}>
-                  Password
-                </button>
-                <button onClick={() => { setTab('otp'); setError(''); setOtpSent(false); setOtpMsg(''); }} className={`flex-1 py-2 text-sm font-semibold transition ${tab === 'otp' ? 'bg-brand-yellow text-brand-dark' : 'bg-white text-gray-600 hover:bg-brand-mist'}`}>
-                  OTP (WhatsApp)
-                </button>
-              </div>
-
-              {tab === 'password' && (
-                <form noValidate className="space-y-4">
-                  <div>
-                    <label className="block text-gray-600 text-sm mb-1">Email</label>
-                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      placeholder="you@example.com" />
-                  </div>
-                  <div>
-                    <label className="block text-gray-600 text-sm mb-1">Password</label>
-                    <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') handleLogin(e); }}
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      placeholder="Enter your password" />
-                  </div>
-                  <button type="button" onClick={handleLogin} disabled={loading}
-                    className="w-full bg-brand-yellow hover:bg-yellow-500 text-brand-dark font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50">
-                    {loading ? 'Logging in...' : 'Login'}
-                  </button>
-                </form>
-              )}
-
-              {tab === 'otp' && (
-                <div className="space-y-4">
-                  {otpMsg && <div className="bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg p-3">{otpMsg}</div>}
-                  {!otpSent ? (
-                    <form onSubmit={handleSendOtp} className="space-y-4">
-                      <div>
-                        <label className="block text-gray-600 text-sm mb-1">Registered Email</label>
-                        <input type="email" required value={otpEmail} onChange={e => setOtpEmail(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                          placeholder="you@example.com" />
-                      </div>
-                      <button type="submit" disabled={loading}
-                        className="w-full bg-brand-yellow hover:bg-yellow-500 text-brand-dark font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50">
-                        {loading ? 'Sending...' : 'Send OTP to WhatsApp'}
-                      </button>
-                    </form>
-                  ) : (
-                    <form onSubmit={handleVerifyOtp} className="space-y-4">
-                      <div>
-                        <label className="block text-gray-600 text-sm mb-1">Enter OTP</label>
-                        <input type="text" required maxLength="6" value={otpCode} onChange={e => setOtpCode(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow text-center text-2xl tracking-widest"
-                          placeholder="------" />
-                      </div>
-                      <button type="submit" disabled={loading}
-                        className="w-full bg-brand-yellow hover:bg-yellow-500 text-brand-dark font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50">
-                        {loading ? 'Verifying...' : 'Verify OTP & Login'}
-                      </button>
-                      <button type="button" onClick={() => { setOtpSent(false); setOtpCode(''); setOtpMsg(''); setError(''); }}
-                        className="w-full text-gray-500 text-sm hover:text-brand-dark transition">
-                        Resend OTP
-                      </button>
-                    </form>
-                  )}
+              <form noValidate className="space-y-4">
+                <div>
+                  <label className="block text-gray-600 text-sm mb-1">Email</label>
+                  <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    placeholder="you@example.com" />
                 </div>
-              )}
+                <div>
+                  <label className="block text-gray-600 text-sm mb-1">Password</label>
+                  <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleLogin(e); }}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    placeholder="Enter your password" />
+                </div>
+                <button type="button" onClick={handleLogin} disabled={loading}
+                  className="w-full bg-brand-yellow hover:bg-yellow-500 text-brand-dark font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50">
+                  {loading ? 'Logging in...' : 'Login'}
+                </button>
+              </form>
 
               <p className="text-center text-gray-600 mt-6 text-sm">
                 Don't have an account?{' '}
                 <button onClick={() => goTo('signup')} className="text-brand-yellow hover:underline font-semibold">Sign Up</button>
               </p>
+              </div>
+
+              <aside className="hidden xl:block space-y-4 fade-up-delay">
+                <div className="surface-card rounded-3xl p-5">
+                  <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Live Highlights</p>
+                  <h4 className="text-xl font-extrabold text-brand-dark mt-2 font-display">Why riders pick us</h4>
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="rounded-2xl bg-brand-mist/70 p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">Avg Pickup</p>
+                      <p className="text-lg font-extrabold text-brand-dark">9 min</p>
+                    </div>
+                    <div className="rounded-2xl bg-brand-mist/70 p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">On-time Rate</p>
+                      <p className="text-lg font-extrabold text-brand-dark">98%</p>
+                    </div>
+                    <div className="rounded-2xl bg-brand-mist/70 p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">Rated By Users</p>
+                      <p className="text-lg font-extrabold text-brand-dark">4.9/5</p>
+                    </div>
+                    <div className="rounded-2xl bg-brand-mist/70 p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">Support</p>
+                      <p className="text-lg font-extrabold text-brand-dark">24/7</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="surface-card rounded-3xl p-5">
+                  <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Quick Steps</p>
+                  <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                    <li className="rounded-xl bg-white border border-gray-100 px-3 py-2">1. Login with password or Google</li>
+                    <li className="rounded-xl bg-white border border-gray-100 px-3 py-2">2. Pick car type and route</li>
+                    <li className="rounded-xl bg-white border border-gray-100 px-3 py-2">3. Confirm and get WhatsApp update</li>
+                  </ul>
+                </div>
+              </aside>
             </div>
           </div>
           <Footer />
@@ -550,13 +864,13 @@
       };
 
       return (
-        <div className="min-h-screen relative overflow-hidden page-shell flex flex-col">
+        <div className="min-h-screen relative overflow-hidden page-shell flex flex-col page-reveal">
           <div className="absolute inset-0 soft-grid opacity-60"></div>
           <div className="absolute -top-24 -left-24 w-80 h-80 orb float-slow rounded-full"></div>
           <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] orb-teal float-slow rounded-full"></div>
           <div className="flex items-center justify-center gap-4 pt-10 pb-4 relative z-10 fade-up">
             <Chakram size={56} />
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-brand-yellow tracking-wide drop-shadow-lg font-display">Sriram Cab Service</h1>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-brand-yellow tracking-wide drop-shadow-lg font-display">GRAND DRIVE</h1>
             <Chakram size={56} reverse />
           </div>
           <p className="text-center text-gray-600 mb-6 text-sm relative z-10 fade-up-delay">Create your account to unlock premium rides and priority support</p>
@@ -624,87 +938,161 @@
     function CarSelectionPage({ goTo }) {
       const cars = [
         {
-          name: 'Mini',
-          rate: 12,
-          image: 'https://cdn-icons-png.flaticon.com/512/3774/3774278.png',
-          desc: 'Affordable & compact for city rides',
-          color: 'from-emerald-400 to-emerald-600'
-        },
-        {
           name: 'Sedan',
-          rate: 13,
+          rate: 25,
           image: 'https://cdn-icons-png.flaticon.com/512/3097/3097180.png',
-          desc: 'Comfortable rides for longer trips',
+          desc: 'Comfortable rides for city and outstation trips',
           color: 'from-sky-400 to-sky-600'
         },
         {
-          name: 'SUV / Innova',
-          rate: 18,
-          image: 'https://cdn-icons-png.flaticon.com/512/2554/2554942.png',
-          desc: 'Spacious & premium for families',
+          name: 'SUV',
+          rate: 32,
+          image: '/images/suv.svg',
+          desc: 'Spacious rides for family and group travel',
+          color: 'from-emerald-400 to-emerald-600'
+        },
+        {
+          name: 'Innova',
+          rate: 35,
+          image: '/images/innova.svg',
+          desc: 'Premium comfort for long-distance journeys',
           color: 'from-amber-400 to-amber-600'
         }
       ];
 
-      const facilities = [
+      const slides = [
         {
-          title: 'Instant Fare Estimate',
-          desc: 'Transparent pricing before you book, with route time and distance.',
-          icon: '🧾'
+          id: 'rental-packages',
+          title: 'Sedan Rental Packages',
+          subtitle: 'Fixed package rates for Sedan',
+          points: [
+            'Sedan 1 Day Package: Rs 3500, allowed 150 km',
+            'Sedan 8 Hours Package: Rs 2400, allowed 75 km',
+            'Sedan 4 Hours Package: Rs 1200, allowed 40 km',
+            'Extra distance: Rs 25 per km above package limit'
+          ]
         },
         {
-          title: 'Live Availability',
-          desc: 'See available rides in your area with quick assignment.',
-          icon: '🛰️'
+          id: 'suv-innova-rental',
+          title: 'SUV and Innova Rental Packages',
+          subtitle: 'Based on one-day package Rs 4500',
+          points: [
+            'SUV 1 Day: Rs 4500 | 8 Hours: Rs 3000 | 4 Hours: Rs 1500',
+            'Innova 1 Day: Rs 4500 | 8 Hours: Rs 3000 | 4 Hours: Rs 1500',
+            'Allowed km: 150 (1 Day), 75 (8 Hours), 40 (4 Hours)',
+            'Extra distance: Rs 25 per km above package limit'
+          ]
         },
         {
-          title: 'Safety First',
-          desc: 'Verified drivers, vehicle details, and SOS-ready support.',
-          icon: '🛡️'
-        },
-        {
-          title: 'Trip History & Invoices',
-          desc: 'All past rides, receipts, and re-book in one tap.',
-          icon: '📂'
-        },
-        {
-          title: '24/7 Premium Support',
-          desc: 'Priority WhatsApp and call support for every booking.',
-          icon: '💬'
-        },
-        {
-          title: 'Flexible Payments',
-          desc: 'Cash, UPI, or card-ready flows for convenience.',
-          icon: '💳'
+          id: 'outstation-packages',
+          title: 'Outstation Packages',
+          subtitle: 'Per-km pricing and driver beta per day',
+          points: [
+            'Sedan: Rs 14 per km',
+            'Sedan driver beta: Rs 500 per day',
+            'SUV and Innova: Rs 18 per km',
+            'SUV and Innova driver beta: Rs 700 per day'
+          ]
         }
       ];
 
+      const [activeSlide, setActiveSlide] = useState(0);
+      const revealScopeRef = useScrollReveal([activeSlide]);
+
+      const nextSlide = () => {
+        setActiveSlide(prev => (prev + 1) % slides.length);
+      };
+
+      const prevSlide = () => {
+        setActiveSlide(prev => (prev - 1 + slides.length) % slides.length);
+      };
+
+
       return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-sand via-white to-brand-mist flex flex-col text-brand-dark">
+        <div className="min-h-screen glow-road-bg flex flex-col text-brand-dark page-reveal">
           <Header />
-          <div className="flex-1 max-w-5xl mx-auto px-4 py-10 w-full">
+          <div ref={revealScopeRef} className="flex-1 max-w-5xl mx-auto px-4 py-10 w-full">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-dark text-center mb-2 font-display">Choose Your Ride</h2>
             <p className="text-gray-600 text-center mb-10">Elevated comfort, transparent pricing, and on-time arrivals</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {facilities.map(item => (
-                <div key={item.title} className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 hover:shadow-2xl transition">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-yellow/20 text-2xl flex items-center justify-center mb-4">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-brand-dark mb-2">{item.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
+            <div className="neon-panel rounded-2xl px-5 py-3 mb-8 overflow-hidden scroll-reveal">
+              <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-brand-dark">
+                <span className="feature-chip bg-white rounded-full px-3 py-1 border border-sky-100">No hidden charges</span>
+                <span className="feature-chip bg-white rounded-full px-3 py-1 border border-emerald-100">Fast pickup assistance</span>
+                <span className="feature-chip bg-white rounded-full px-3 py-1 border border-amber-100">Tamil Nadu wide coverage</span>
+                <span className="feature-chip bg-white rounded-full px-3 py-1 border border-rose-100">WhatsApp confirmation</span>
+              </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-12">
+            <div className="neon-panel rounded-3xl p-6 sm:p-8 mb-10 scroll-reveal" style={{ '--reveal-delay': '60ms' }}>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-brand-blue font-semibold">Pricing Slideshow</p>
+                  <h3 className="text-2xl font-extrabold text-brand-dark mt-2 font-display">{slides[activeSlide].title}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{slides[activeSlide].subtitle}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={prevSlide}
+                    className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-brand-mist text-brand-dark font-bold transition"
+                    aria-label="Previous slide"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextSlide}
+                    className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-brand-mist text-brand-dark font-bold transition"
+                    aria-label="Next slide"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {slides[activeSlide].points.map((point, index) => (
+                  <div key={`${slides[activeSlide].id}-${index}`} className="bg-brand-mist/50 rounded-xl px-4 py-3 text-sm text-gray-700 border border-gray-100">
+                    {point}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-7 flex items-center justify-center gap-2" aria-label="Slide indicators">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    onClick={() => setActiveSlide(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                    className={`h-2.5 rounded-full transition-all ${activeSlide === index ? 'w-6 bg-brand-blue' : 'w-2.5 bg-gray-300 hover:bg-gray-400'}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="neon-panel rounded-3xl p-6 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 scroll-reveal" style={{ '--reveal-delay': '120ms' }}>
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-brand-blue font-semibold">New</p>
+                <h3 className="text-2xl font-extrabold text-brand-dark mt-2 font-display">Rental Booking</h3>
+                <p className="text-sm text-gray-600 mt-1">Select Sedan, SUV, or Innova and auto-calculate fare by package hours.</p>
+              </div>
+              <button
+                onClick={() => goTo('rental')}
+                className="bg-brand-dark hover:bg-brand-blue text-white font-bold px-6 py-3 rounded-xl transition shadow glow-btn"
+              >
+                Open Rental Booking
+              </button>
+            </div>
+
+            <div className="neon-panel rounded-3xl p-8 mb-12 scroll-reveal" style={{ '--reveal-delay': '180ms' }}>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-brand-blue font-semibold">How it works</p>
-                  <h3 className="text-2xl font-extrabold text-brand-dark mt-2 font-display">Book in 3 simple steps</h3>
+                  <h3 className="text-2xl font-extrabold text-brand-dark mt-2 font-display">City Rides</h3>
                 </div>
-                <button onClick={() => goTo('booking', cars[0])} className="bg-brand-blue hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-xl transition shadow">
+                <button onClick={() => goTo('booking', cars[0])} className="bg-brand-blue hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-xl transition shadow glow-btn">
                   Start Booking
                 </button>
               </div>
@@ -712,7 +1100,7 @@
                 <div className="bg-brand-mist/50 rounded-2xl p-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Step 1</p>
                   <h4 className="text-lg font-bold text-brand-dark mt-2">Choose Your Ride</h4>
-                  <p className="text-sm text-gray-600 mt-2">Pick Mini, Sedan, or SUV based on your comfort needs.</p>
+                  <p className="text-sm text-gray-600 mt-2">Pick Sedan, SUV, or Innova based on your comfort needs.</p>
                 </div>
                 <div className="bg-brand-mist/50 rounded-2xl p-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Step 2</p>
@@ -728,11 +1116,12 @@
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-              {cars.map(car => (
+              {cars.map((car, index) => (
                 <div key={car.name} onClick={() => goTo('booking', car)}
-                  className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 group fade-up">
+                  className="neon-card tilt-card scroll-reveal rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 group"
+                  style={{ '--reveal-delay': `${260 + index * 90}ms` }}>
                   <div className={`bg-gradient-to-br ${car.color} p-8 flex items-center justify-center group-hover:scale-105 transition-transform`}>
-                    <img src={car.image} alt={car.name} className="w-28 h-28 object-contain drop-shadow-lg" />
+                    <img src={car.image} alt={car.name} className="w-28 h-28 object-contain drop-shadow-lg car-glow" />
                   </div>
                   <div className="p-6 text-center">
                     <h3 className="text-2xl font-bold text-brand-dark font-display">{car.name}</h3>
@@ -762,20 +1151,28 @@
       const [error, setError] = useState('');
       const [calcLoading, setCalcLoading] = useState(false);
       const [loading, setLoading] = useState(false);
+      const [bookingStatusMessage, setBookingStatusMessage] = useState('');
       const [pickupSuggestions, setPickupSuggestions] = useState([]);
       const [dropoffSuggestions, setDropoffSuggestions] = useState([]);
       const [pickupCoord, setPickupCoord] = useState(null);
       const [dropoffCoord, setDropoffCoord] = useState(null);
       const pickupRef = useRef(null);
       const dropoffRef = useRef(null);
+      const suggestionCacheRef = useRef(new Map());
 
-      const fetchSuggestions = async (query, signal) => {
+      const fetchSuggestions = async (query, signal, limit = 6) => {
+        const normalizedQuery = query.trim().toLowerCase();
+        const cacheKey = `${normalizedQuery}|${limit}`;
+        if (suggestionCacheRef.current.has(cacheKey)) {
+          return suggestionCacheRef.current.get(cacheKey);
+        }
+
         const tamilNaduViewBox = '76.2,13.6,80.5,8.0';
         const params = new URLSearchParams({
           q: query,
           format: 'jsonv2',
           addressdetails: '1',
-          limit: '6',
+          limit: String(limit),
           countrycodes: 'in',
           viewbox: tamilNaduViewBox,
           bounded: '1'
@@ -783,40 +1180,48 @@
         const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
         const res = await fetch(url, { headers: { 'Accept-Language': 'en' }, signal });
         const data = await res.json();
-        return data.map(item => ({
+        const mapped = data.map(item => ({
           display: item.display_name,
           lat: parseFloat(item.lat),
           lon: parseFloat(item.lon)
         }));
+        suggestionCacheRef.current.set(cacheKey, mapped);
+        if (suggestionCacheRef.current.size > 80) {
+          const firstKey = suggestionCacheRef.current.keys().next().value;
+          suggestionCacheRef.current.delete(firstKey);
+        }
+        return mapped;
       };
 
       useEffect(() => {
         const term = pickup.trim();
-        if (term.length < 3) { setPickupSuggestions([]); return; }
+        if (term.length < 2) { setPickupSuggestions([]); return; }
         const controller = new AbortController();
+        const suggestionLimit = window.innerWidth < 640 ? 4 : 6;
         const timer = setTimeout(async () => {
           try {
-            const results = await fetchSuggestions(term, controller.signal);
+            const results = await fetchSuggestions(term, controller.signal, suggestionLimit);
             setPickupSuggestions(results);
           } catch (err) {
             if (err.name !== 'AbortError') setPickupSuggestions([]);
           }
-        }, 350);
+        }, 180);
         return () => { clearTimeout(timer); controller.abort(); };
       }, [pickup]);
 
       useEffect(() => {
         const term = dropoff.trim();
-        if (term.length < 3) { setDropoffSuggestions([]); return; }
+        if (term.length < 2) { setDropoffSuggestions([]); return; }
         const controller = new AbortController();
+        const suggestionLimit = window.innerWidth < 640 ? 4 : 6;
         const timer = setTimeout(async () => {
           try {
-            const results = await fetchSuggestions(term, controller.signal);
+            const results = await fetchSuggestions(term, controller.signal, suggestionLimit);
             setDropoffSuggestions(results);
           } catch (err) {
             if (err.name !== 'AbortError') setDropoffSuggestions([]);
           }
-        }, 350);
+        }, 180);
         return () => { clearTimeout(timer); controller.abort(); };
       }, [dropoff]);
 
@@ -902,7 +1307,7 @@
         if (!fare) { setError('Please calculate fare first.'); return; }
         if (!token) { setError('Session expired. Please logout and login again.'); return; }
         if (!user?.phone && !contactPhone.trim()) { setError('Please enter a WhatsApp number for contact.'); return; }
-        setLoading(true); setError('');
+        setLoading(true); setError(''); setBookingStatusMessage('');
         try {
           const res = await fetch(API + '/bookings', {
             method: 'POST',
@@ -915,6 +1320,8 @@
             return;
           }
           if (!res.ok) throw new Error(data.message || 'Booking failed - status ' + res.status);
+          const warnings = Array.isArray(data.notificationWarnings) ? data.notificationWarnings : [];
+          setBookingStatusMessage(warnings.length ? `${data.message} ${warnings.join(' | ')}` : (data.message || 'Ride booked successfully!'));
           setBooked(true);
         } catch (err) { setError('❌ ' + err.message); }
         setLoading(false);
@@ -922,13 +1329,23 @@
 
       if (booked) {
         return (
-          <div className="min-h-screen bg-gray-50 flex flex-col">
+          <div className="min-h-screen bg-gray-50 flex flex-col page-reveal">
             <Header />
-            <div className="flex-1 max-w-lg mx-auto px-4 py-16 text-center w-full">
+            <div className="flex-1 max-w-lg mx-auto px-4 py-16 text-center w-full relative">
+              <button
+                type="button"
+                onClick={() => setBooked(false)}
+                className="absolute left-4 top-6 sm:top-8 w-11 h-11 rounded-full bg-white border border-gray-200 text-brand-dark text-2xl leading-none flex items-center justify-center shadow hover:bg-brand-mist transition"
+                aria-label="Back to booking form"
+                title="Back"
+              >
+                ←
+              </button>
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-3xl font-extrabold text-green-600 mb-3">Ride Booked!</h2>
-              <p className="text-gray-600 mb-2">Your <span className="font-bold">{car.name}</span> ride from <span className="font-bold">{pickup}</span> to <span className="font-bold">{dropoff}</span> is confirmed.</p>
-              <div className="flex justify-center gap-6 my-4">
+              <p className="text-gray-600 mb-2 break-words">Your <span className="font-bold">{car.name}</span> ride from <span className="font-bold">{pickup}</span> to <span className="font-bold">{dropoff}</span> is confirmed.</p>
+              {bookingStatusMessage && <p className="text-sm font-semibold text-brand-dark mb-3">{bookingStatusMessage}</p>}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-4 max-w-xs sm:max-w-none mx-auto">
                 <div className="bg-white rounded-xl shadow p-4"><p className="text-xs text-gray-500">Distance</p><p className="text-xl font-bold text-brand-dark">{distance} km</p></div>
                 <div className="bg-white rounded-xl shadow p-4"><p className="text-xs text-gray-500">Est. Time</p><p className="text-xl font-bold text-brand-dark">{duration} min</p></div>
                 <div className="bg-brand-yellow/20 rounded-xl shadow p-4 border-2 border-brand-yellow"><p className="text-xs text-gray-500">Fare</p><p className="text-xl font-bold text-brand-dark">₹{fare}</p></div>
@@ -942,9 +1359,9 @@
       }
 
       return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-sand via-white to-brand-mist flex flex-col text-brand-dark">
+        <div className="min-h-screen glow-road-bg flex flex-col text-brand-dark page-reveal">
           <Header />
-          <div className="flex-1 max-w-lg mx-auto px-4 py-10 w-full">
+          <div className="flex-1 max-w-lg mx-auto px-4 pt-10 pb-28 sm:pb-10 w-full">
             <button onClick={() => goTo('cars')} className="text-brand-blue hover:underline text-sm mb-6 inline-flex items-center gap-1">
               ← Back to Cars
             </button>
@@ -957,16 +1374,27 @@
               </div>
             </div>
 
+            <div className="sm:hidden bg-white/90 border border-gray-200 rounded-2xl p-3 mb-4 shadow">
+              <div className="flex items-center gap-2 text-[11px] font-semibold">
+                <span className="px-2 py-1 rounded-full bg-brand-blue/10 text-brand-blue">1 Route</span>
+                <span className={`px-2 py-1 rounded-full ${fare !== null ? 'bg-brand-yellow/20 text-brand-dark' : 'bg-gray-100 text-gray-500'}`}>2 Fare</span>
+                <span className={`px-2 py-1 rounded-full ${fare !== null ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'}`}>3 Confirm</span>
+              </div>
+              <p className="text-xs text-gray-600 mt-2">
+                {fare === null ? 'Enter pickup and drop, then tap Calculate.' : 'Fare ready. Tap Confirm Booking below.'}
+              </p>
+            </div>
+
             {error && <div className="bg-red-50 border border-red-300 text-red-600 text-sm rounded-lg p-3 mb-4">{error}</div>}
 
-            <div className="bg-white rounded-3xl shadow-lg p-6 space-y-5">
+            <div className="neon-panel rounded-3xl p-6 space-y-5">
               <div>
                 <label className="block text-gray-700 font-semibold text-sm mb-1">📍 Pickup Location</label>
                 <input ref={pickupRef} type="text" value={pickup} onChange={e => { setPickup(e.target.value); setPickupCoord(null); setFare(null); setDistance(null); }}
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
                   placeholder="e.g. Chennai, Tamil Nadu" />
                 {pickupSuggestions.length > 0 && (
-                  <div className="mt-2 rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                  <div className="mt-2 rounded-xl border border-gray-200 bg-white shadow-sm overflow-y-auto max-h-56">
                     {pickupSuggestions.map((item, index) => (
                       <button
                         type="button"
@@ -992,7 +1420,7 @@
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
                   placeholder="e.g. Madurai, Tamil Nadu" />
                 {dropoffSuggestions.length > 0 && (
-                  <div className="mt-2 rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                  <div className="mt-2 rounded-xl border border-gray-200 bg-white shadow-sm overflow-y-auto max-h-56">
                     {dropoffSuggestions.map((item, index) => (
                       <button
                         type="button"
@@ -1023,7 +1451,7 @@
               )}
 
               <button onClick={handleCalculate} disabled={calcLoading}
-                className="w-full bg-brand-blue hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition shadow flex items-center justify-center gap-2 disabled:opacity-60">
+                className="hidden sm:flex w-full bg-brand-blue hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition shadow items-center justify-center gap-2 disabled:opacity-60 glow-btn">
                 {calcLoading ? (
                   <><svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Calculating route...</>
                 ) : '🗺️ Calculate Distance & Fare'}
@@ -1052,10 +1480,307 @@
 
               {fare !== null && (
                 <button onClick={handleBook} disabled={loading}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50">
+                  className="hidden sm:block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition shadow-lg disabled:opacity-50 glow-btn">
                   {loading ? 'Booking...' : '✅ Confirm Booking'}
                 </button>
               )}
+            </div>
+          </div>
+
+          <div
+            className="sm:hidden fixed bottom-0 inset-x-0 z-40 p-3 bg-white/95 border-t border-gray-200 backdrop-blur"
+            style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}
+          >
+            <div className="max-w-lg mx-auto flex items-center gap-3">
+              {fare !== null ? (
+                <div className="flex-1 rounded-xl bg-brand-yellow/15 border border-brand-yellow/40 px-3 py-2">
+                  <p className="text-[11px] text-gray-600">Estimated Fare</p>
+                  <p className="text-lg font-extrabold text-brand-dark">₹{fare}</p>
+                </div>
+              ) : (
+                <div className="flex-1 rounded-xl bg-gray-100 border border-gray-200 px-3 py-2">
+                  <p className="text-[11px] text-gray-600">Next Step</p>
+                  <p className="text-sm font-bold text-brand-dark">Calculate Fare</p>
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={fare === null ? handleCalculate : handleBook}
+                disabled={calcLoading || loading}
+                className={`px-4 py-3 rounded-xl text-white font-bold shadow-lg disabled:opacity-50 ${fare === null ? 'bg-brand-blue hover:bg-blue-800' : 'bg-green-500 hover:bg-green-600'}`}
+              >
+                {fare === null
+                  ? (calcLoading ? 'Calculating...' : 'Calculate')
+                  : (loading ? 'Booking...' : 'Confirm')}
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Rental Booking Page ─── */
+    function RentalBookingPage({ goTo }) {
+      const { token, user } = useAuth();
+      const carOptions = {
+        Sedan: {},
+        SUV: {},
+        Innova: {}
+      };
+
+      const packageOptionsByCar = {
+        Sedan: {
+          '4 Hours': { fare: 1200, allowedKm: 40 },
+          '8 Hours': { fare: 2400, allowedKm: 75 },
+          '1 Day': { fare: 3500, allowedKm: 150 }
+        },
+        SUV: {
+          '4 Hours': { fare: 1500, allowedKm: 40 },
+          '8 Hours': { fare: 3000, allowedKm: 75 },
+          '1 Day': { fare: 4500, allowedKm: 150 }
+        },
+        Innova: {
+          '4 Hours': { fare: 1500, allowedKm: 40 },
+          '8 Hours': { fare: 3000, allowedKm: 75 },
+          '1 Day': { fare: 4500, allowedKm: 150 }
+        }
+      };
+
+      const [selectedCar, setSelectedCar] = useState('Sedan');
+      const [showPackageFlow, setShowPackageFlow] = useState(false);
+      const [bookingCarType, setBookingCarType] = useState('Sedan');
+      const [bookingPackageHours, setBookingPackageHours] = useState('4 Hours');
+      const [bookingConfirmed, setBookingConfirmed] = useState(false);
+      const [bookingLoading, setBookingLoading] = useState(false);
+      const [bookingError, setBookingError] = useState('');
+      const [bookingSuccess, setBookingSuccess] = useState(false);
+      const [bookingStatusMessage, setBookingStatusMessage] = useState('');
+      const [contactPhone, setContactPhone] = useState('');
+
+      const packageOptions = packageOptionsByCar[bookingCarType];
+
+      const startPackageFlow = () => {
+        setBookingError('');
+        setBookingSuccess(false);
+        setBookingStatusMessage('');
+        setBookingCarType(selectedCar);
+        setBookingPackageHours('4 Hours');
+        setBookingConfirmed(false);
+        setShowPackageFlow(true);
+      };
+
+      const confirmPackageSelection = () => {
+        setBookingError('');
+        setBookingConfirmed(true);
+      };
+
+      const handleBookPackage = async () => {
+        if (!token) {
+          setBookingError('Session expired. Please login again.');
+          return;
+        }
+        if (!user?.phone && !contactPhone.trim()) {
+          setBookingError('Please enter a WhatsApp number.');
+          return;
+        }
+
+        const selectedPackageData = packageOptionsByCar[bookingCarType][bookingPackageHours];
+        const packageMins = bookingPackageHours === '1 Day' ? 24 * 60 : parseInt(bookingPackageHours, 10) * 60;
+
+        setBookingLoading(true);
+        setBookingError('');
+        try {
+          const res = await fetch(API + '/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: JSON.stringify({
+              pickup: 'Rental Package Booking',
+              dropoff: 'Rental Package Booking',
+              distance: selectedPackageData.allowedKm,
+              fare: selectedPackageData.fare,
+              estimatedTime: packageMins,
+              carType: `${bookingCarType} - ${bookingPackageHours} Package`,
+              contactPhone: contactPhone.trim()
+            })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'Package booking failed.');
+          const warnings = Array.isArray(data.notificationWarnings) ? data.notificationWarnings : [];
+          setBookingStatusMessage(warnings.length ? `${data.message} ${warnings.join(' | ')}` : (data.message || 'Package was booked successfully.'));
+          setBookingSuccess(true);
+          setShowPackageFlow(false);
+          setBookingConfirmed(false);
+        } catch (err) {
+          setBookingError(err.message || 'Package booking failed.');
+        }
+        setBookingLoading(false);
+      };
+
+      return (
+        <div className="min-h-screen glow-road-bg flex flex-col text-brand-dark page-reveal">
+          <Header />
+          <div className="flex-1 max-w-4xl mx-auto px-4 py-10 w-full">
+            <button onClick={() => goTo('cars')} className="text-brand-blue hover:underline text-sm mb-6 inline-flex items-center gap-1">
+              ← Back to Cars
+            </button>
+
+            <div className="neon-panel rounded-3xl p-6 sm:p-8 mb-8">
+              <p className="text-xs uppercase tracking-[0.25em] text-brand-blue font-semibold">Rental Booking</p>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-dark mt-2 font-display">Choose Car and Package</h2>
+              <p className="text-sm text-gray-600 mt-2">Pick car type and package hours. Fare details are calculated automatically.</p>
+
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-brand-mist/60 rounded-2xl p-4 border border-gray-100">
+                  <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">Sedan Package Details</p>
+                  <p className="text-sm text-gray-700 mt-2">4 Hours: Rs 1200 (40 km)</p>
+                  <p className="text-sm text-gray-700">8 Hours: Rs 2400 (75 km)</p>
+                  <p className="text-sm text-gray-700">1 Day: Rs 3500 (150 km)</p>
+                </div>
+                <div className="bg-brand-mist/60 rounded-2xl p-4 border border-gray-100">
+                  <p className="text-xs uppercase tracking-[0.2em] text-brand-blue font-semibold">SUV and Innova Package Details</p>
+                  <p className="text-sm text-gray-700 mt-2">1 Day: Rs 4500 (150 km)</p>
+                  <p className="text-sm text-gray-700">8 Hours: Rs 3000 (75 km)</p>
+                  <p className="text-sm text-gray-700">4 Hours: Rs 1500 (40 km)</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                {Object.keys(carOptions).map(carName => (
+                  <button
+                    key={carName}
+                    type="button"
+                    onClick={() => setSelectedCar(carName)}
+                    className={`rounded-2xl px-4 py-4 border text-left transition ${selectedCar === carName ? 'border-brand-yellow bg-brand-yellow/10' : 'border-gray-200 bg-white hover:bg-brand-mist'}`}
+                  >
+                    <p className="text-lg font-bold text-brand-dark">{carName}</p>
+                    <p className="text-xs text-gray-600 mt-1">Rental package pricing only</p>
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <p className="text-sm font-extrabold text-brand-dark">Note: Extra per km - Sedan: Rs 25/km, SUV: Rs 35/km.</p>
+              </div>
+
+              <div className="mt-6">
+                {!showPackageFlow && !bookingSuccess && (
+                  <button
+                    type="button"
+                    onClick={startPackageFlow}
+                    className="bg-brand-dark hover:bg-brand-blue text-white font-bold px-6 py-3 rounded-xl transition shadow glow-btn"
+                  >
+                    Book Package
+                  </button>
+                )}
+
+                {bookingSuccess && (
+                  <div className="bg-emerald-50 border border-emerald-300 text-emerald-700 rounded-xl p-4 font-semibold">
+                    {bookingStatusMessage || 'Package was booked successfully. Customer details have been sent via WhatsApp.'}
+                  </div>
+                )}
+
+                {showPackageFlow && (
+                  <div className="mt-4 bg-brand-mist/40 border border-gray-200 rounded-2xl p-5 space-y-4">
+                    <h3 className="text-lg font-bold text-brand-dark">Package Booking</h3>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Car Type</label>
+                      <select
+                        value={bookingCarType}
+                        onChange={e => {
+                          setBookingCarType(e.target.value);
+                          setBookingConfirmed(false);
+                          setBookingError('');
+                        }}
+                        className="w-full sm:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                      >
+                        {Object.keys(carOptions).map(carName => (
+                          <option key={carName} value={carName}>{carName}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Package Hours</label>
+                      <select
+                        value={bookingPackageHours}
+                        onChange={e => {
+                          setBookingPackageHours(e.target.value);
+                          setBookingConfirmed(false);
+                          setBookingError('');
+                        }}
+                        className="w-full sm:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                      >
+                        {Object.keys(packageOptions).map(pkg => (
+                          <option key={pkg} value={pkg}>{pkg}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {!user?.phone && (
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
+                        <input
+                          type="tel"
+                          value={contactPhone}
+                          onChange={e => setContactPhone(e.target.value)}
+                          placeholder="+91 98765 43210"
+                          className="w-full sm:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                        />
+                      </div>
+                    )}
+
+                    <div className="text-sm text-gray-700">
+                      Selected: <span className="font-bold">{bookingCarType}</span> - <span className="font-bold">{bookingPackageHours}</span> | Fare: <span className="font-bold">Rs {packageOptionsByCar[bookingCarType][bookingPackageHours].fare}</span>
+                    </div>
+
+                    {!bookingConfirmed ? (
+                      <button
+                        type="button"
+                        onClick={confirmPackageSelection}
+                        className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl transition glow-btn"
+                      >
+                        Confirm Selection
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleBookPackage}
+                        disabled={bookingLoading}
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2.5 rounded-xl transition disabled:opacity-50 glow-btn"
+                      >
+                        {bookingLoading ? 'Booking Package...' : 'Book Now'}
+                      </button>
+                    )}
+
+                    {bookingError && (
+                      <p className="text-sm text-red-600 font-semibold">{bookingError}</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+
+    function SplashScreen() {
+      return (
+        <div className="splash-screen flex items-center justify-center px-4">
+          <div className="splash-card rounded-3xl p-8 sm:p-10 w-full max-w-xl text-center text-white">
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <Chakram size={56} />
+              <h2 className="text-3xl sm:text-4xl font-extrabold font-display tracking-wide">GRAND DRIVE</h2>
+              <Chakram size={56} reverse />
+            </div>
+            <p className="text-white/90 text-sm sm:text-base">Preparing your premium booking experience...</p>
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <span className="splash-dot w-2.5 h-2.5 rounded-full bg-white inline-block"></span>
+              <span className="splash-dot w-2.5 h-2.5 rounded-full bg-white inline-block" style={{ animationDelay: '0.2s' }}></span>
+              <span className="splash-dot w-2.5 h-2.5 rounded-full bg-white inline-block" style={{ animationDelay: '0.4s' }}></span>
             </div>
           </div>
         </div>
@@ -1067,6 +1792,12 @@
       const { user } = useAuth();
       const [page, setPage] = useState('login');
       const [selectedCar, setSelectedCar] = useState(null);
+      const [showSplash, setShowSplash] = useState(true);
+
+      useEffect(() => {
+        const timer = setTimeout(() => setShowSplash(false), 1400);
+        return () => clearTimeout(timer);
+      }, []);
 
       useEffect(() => {
         if (user && (page === 'login' || page === 'signup')) setPage('cars');
@@ -1078,9 +1809,12 @@
         setPage(pg);
       };
 
+      if (showSplash) return <SplashScreen />;
+
       if (page === 'login') return <LoginPage goTo={goTo} />;
       if (page === 'signup') return <SignUpPage goTo={goTo} />;
       if (page === 'cars') return <CarSelectionPage goTo={goTo} />;
+      if (page === 'rental') return <RentalBookingPage goTo={goTo} />;
       if (page === 'booking' && selectedCar) return <BookingPage goTo={goTo} car={selectedCar} />;
       return <LoginPage goTo={goTo} />;
     }

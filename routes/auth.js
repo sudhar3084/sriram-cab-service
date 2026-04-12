@@ -18,6 +18,35 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
+const toPublicUser = (user) => ({
+  id: user._id,
+  name: user.name,
+  email: user.email,
+  phone: user.phone,
+  place: user.place || '',
+  profilePicture: user.profilePicture || ''
+});
+
+const maskPhone = (phone) => {
+  const raw = String(phone || '').trim();
+  if (!raw) return '';
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return raw;
+  if (digits.length <= 4) return '*'.repeat(digits.length);
+  return `${'*'.repeat(digits.length - 4)}${digits.slice(-4)}`;
+};
+
+const normalizePhone = (phone) => {
+  if (!phone) return '';
+  const raw = String(phone).trim();
+  const hasPlus = raw.startsWith('+');
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return '';
+  if (hasPlus) return `+${digits}`;
+  if (digits.length === 10) return `+91${digits}`;
+  return `+${digits}`;
+};
+
 // ============================================================
 // @route   POST /api/auth/signup
 // @desc    Register a new user (manual signup with password)
@@ -35,12 +64,7 @@ router.post('/signup', async (req, res) => {
 
     res.status(201).json({
       message: 'Account created successfully!',
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone
-      }
+      user: toPublicUser(user)
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
@@ -88,99 +112,11 @@ router.post('/google-signup', async (req, res) => {
     res.json({
       message: 'Google sign-in successful!',
       token: generateToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        profilePicture: user.profilePicture
-      }
+      user: toPublicUser(user)
     });
   } catch (error) {
     console.error('Google auth error:', error.message);
     res.status(401).json({ message: 'Google authentication failed: ' + error.message });
-  }
-});
-
-// ============================================================
-// @route   POST /api/auth/send-otp
-// @desc    Send OTP to user's email for login
-// ============================================================
-router.post('/send-otp', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'No account found with this email. Please sign up first.' });
-    }
-
-    // Generate OTP and set expiry (5 minutes)
-    const otp = generateOTP();
-    user.otp = otp;
-    user.otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
-    await user.save();
-
-    // Send OTP via WhatsApp if user has a phone number
-    if (user.phone && user.phone.trim() !== '') {
-      const otpMessage = `🔐 *Sriram Cab Service*\n\nYour login OTP is: *${otp}*\n\nValid for 5 minutes. Do not share this with anyone.`;
-      await sendWhatsApp(user.phone, otpMessage);
-      console.log(`📲 OTP sent via WhatsApp to ${user.phone}`);
-    } else {
-      console.log(`⚠️  No phone for ${email}. OTP: ${otp}`);
-    }
-
-    res.json({
-      message: user.phone ? `OTP sent to WhatsApp ${user.phone.slice(-4).padStart(user.phone.length, '*')}` : 'OTP sent!'
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error: ' + error.message });
-  }
-});
-
-// ============================================================
-// @route   POST /api/auth/verify-otp
-// @desc    Verify OTP and login the user
-// ============================================================
-router.post('/verify-otp', async (req, res) => {
-  try {
-    const { email, otp } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    // Check OTP
-    if (!user.otp || user.otp !== otp) {
-      return res.status(401).json({ message: 'Invalid OTP. Please try again.' });
-    }
-
-    // Check expiry
-    if (new Date() > user.otpExpiry) {
-      user.otp = null;
-      user.otpExpiry = null;
-      await user.save();
-      return res.status(401).json({ message: 'OTP has expired. Please request a new one.' });
-    }
-
-    // Clear OTP after successful verification
-    user.otp = null;
-    user.otpExpiry = null;
-    await user.save();
-
-    res.json({
-      message: 'Login successful!',
-      token: generateToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error: ' + error.message });
   }
 });
 
@@ -203,18 +139,24 @@ router.post('/forgot-password', async (req, res) => {
     user.resetOtpExpiry = new Date(Date.now() + 5 * 60 * 1000);
     await user.save();
 
-    // Send reset OTP via WhatsApp if user has phone
-    if (user.phone && user.phone.trim() !== '') {
-      const resetMsg = `🔑 *Sriram Cab Service*\n\nYour password reset OTP is: *${otp}*\n\nValid for 5 minutes. Do not share this.`;
-      await sendWhatsApp(user.phone, resetMsg);
-      console.log(`📲 Reset OTP sent via WhatsApp to ${user.phone}`);
-    } else {
-      console.log(`🔑 Password reset OTP for ${email}: ${otp}`);
+    // Send reset OTP via WhatsApp only when a phone number is available
+    if (!user.phone || user.phone.trim() === '') {
+      return res.status(400).json({ message: 'No WhatsApp number found for this account. Please update your profile phone number.' });
     }
 
-    res.json({
-      message: user.phone ? `Reset OTP sent to WhatsApp ${user.phone.slice(-4).padStart(user.phone.length, '*')}` : 'Reset OTP sent!'
-    });
+    const resetMsg = `🔑 *Sriram Cab Service*\n\nYour password reset OTP is: *${otp}*\n\nValid for 5 minutes. Do not share this.`;
+    const waResult = await sendWhatsApp(user.phone, resetMsg);
+    if (!waResult.ok) {
+      user.resetOtp = null;
+      user.resetOtpExpiry = null;
+      await user.save();
+      return res.status(502).json({
+        message: `Reset OTP could not be sent to WhatsApp ${maskPhone(user.phone)}. Please verify the number and Twilio sandbox join status, then try again.`
+      });
+    }
+
+    console.log(`📲 Reset OTP sent via WhatsApp to ${user.phone}`);
+    res.json({ message: `Reset OTP sent to WhatsApp ${maskPhone(user.phone)}` });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
   }
@@ -282,12 +224,7 @@ router.post('/login', async (req, res) => {
     res.json({
       message: 'Login successful!',
       token: generateToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone
-      }
+      user: toPublicUser(user)
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
@@ -302,13 +239,36 @@ const { protect } = require('../middleware/auth');
 router.get('/me', protect, async (req, res) => {
   try {
     res.json({
-      user: {
-        id: req.user._id,
-        name: req.user.name,
-        email: req.user.email,
-        phone: req.user.phone
-      }
+      user: toPublicUser(req.user)
     });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error: ' + error.message });
+  }
+});
+
+// ============================================================
+// @route   PUT /api/auth/profile
+// @desc    Update logged-in user profile details
+// @access  Private
+// ============================================================
+router.put('/profile', protect, async (req, res) => {
+  try {
+    const { name, phone, place, profilePicture } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: 'Name is required.' });
+    }
+    if (!phone || !phone.trim()) {
+      return res.status(400).json({ message: 'Phone number is required.' });
+    }
+
+    req.user.name = name.trim();
+    req.user.phone = phone.trim();
+    req.user.place = (place || '').trim();
+    req.user.profilePicture = (profilePicture || '').trim() || null;
+    await req.user.save();
+
+    res.json({ message: 'Profile updated successfully!', user: toPublicUser(req.user) });
   } catch (error) {
     res.status(500).json({ message: 'Server error: ' + error.message });
   }
